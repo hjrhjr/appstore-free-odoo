@@ -1,0 +1,6 @@
+body .fc-time-grid-event.fc-short .fc-content {
+    white-space: nowrap;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data noupdate="0">
+    <!-- model.name inherit form view -->
+    <record id="qg_settings_view_id" model="ir.ui.view">
+      <field name="name">res_config_settings_form_inherit</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//div[@id='elearning_selection_settings']" position="after">
+          <!-- <div class="app_settings_block" data-string="qgen" string="Question Generator"> -->
+          <h2>Question Generator</h2>
+          <div class="row mt16 o_settings_container" id="qgen_selection_settings">
+            <div class="col-12 col-lg-6 o_setting_box" id="qgen_install_forum_qg">
+              <div class="o_setting_left_pane">
+                <field name="question_generation"/>
+              </div>
+              <div class="o_setting_right_pane">
+                <label for="question_generation"/>
+                <div class="text-muted">
+                  <a href="https://github.com/patil-suraj/question_generation#results">Question generation tool
+                  </a>
+                  with pre-trained transformers (specifically seq-2-seq models) using straight-forward end-to-end methods without much complicated pipelines.
+
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6"></div>
+            <div class="col-12 col-lg-6 o_setting_box" id="qgen_install_forum_q">
+              <div class="o_setting_left_pane">
+                <field name="questgen"/>
+              </div>
+              <div class="o_setting_right_pane">
+                <label for="questgen"/>
+                <div class="text-muted">
+                  <a href="https://questgen.ai/">Questgen
+                  </a>
+                  is the world's most advanced question generation AI leveraging on state-of-the-art transformer models like T5, BERT and OpenAI GPT-2 etc.
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6"></div>
+            <div class="col-12 col-lg-6 o_setting_box" id="qgen_install_forum_t">
+              <div class="o_setting_left_pane">
+                <field name="teacherpeterpan"/>
+              </div>
+              <div class="o_setting_right_pane">
+                <label for="teacherpeterpan"/>
+                <div class="text-muted">
+                  <a href="https://arxiv.org/pdf/2010.12623.pdf">Unsupervised Multi-hop Question Answering by Question Generation (NAACL 2021)
+                  </a>
+                  framework that can generate human-like multi-hop training pairs from both homogeneous and heterogeneous data sources.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- </div> -->
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

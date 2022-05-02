@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_users_form_inherited_zoom" model="ir.ui.view">
+            <field name="name">res.users.form.inherited.zoom</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <notebook colspan="4" position="inside">
+                    <page string="Zoom Configuration">
+                        <group>
+                            <field name="zoom_login_email" />
+                            <field name="zoom_login_user_id" invisible="1"/>
+                            <field name="zoom_user_timezone" invisible="1"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+</odoo>
+

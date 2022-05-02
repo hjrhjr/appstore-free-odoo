@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record id="im_livechat_channel_view_form_chatbot" model="ir.ui.view">
+            <field name="name">im_livechat.channel.form.chatbot</field>
+            <field name="model">im_livechat.channel</field>
+            <field name="inherit_id" ref="im_livechat.im_livechat_channel_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_message']" position="after">
+                   	<separator string="Chatbot"/>
+                   	<separator/>
+                   	<field name="chatbot_usage" widget="radio" options="{'horizontal': true}" nolabel="1"></field>
+                   	<separator/>
+                   	<field name="chatbot_id" attrs="{'invisible':[('chatbot_usage','=', 'off')], 'required':[('chatbot_usage','!=', 'off')]}"></field>
+                   	
+                   	<field name="chatbot_lowconfidence_threshold" attrs="{'invisible':[('chatbot_usage','=', 'off')], 'required':[('chatbot_usage','!=', 'off')]}"></field>
+                   	
+                   	<field name="chatbot_lowconfidence_response" attrs="{'invisible':[('chatbot_usage','=', 'off')], 'required':[('chatbot_usage','!=', 'off')]}"></field>
+                   	
+                   	<button type="object" name="action_set_low_confidence" string="Set Low Confidence Settings" attrs="{'invisible':[('chatbot_usage','=', 'off')]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        <record id="livechat_chatbot_training_form_id" model="ir.ui.view">
+            <field name="name">im_livechat.chatbot_training.form</field>
+            <field name="model">im_livechat.chatbot_training</field>
+            <field name="arch" type="xml">
+                <form string="Chatbot training">
+                    <h1><separator string="Training the chatbot"/></h1>
+                    <br/>
+                    <p class="oe_grey">
+                        Here you can train the chatbot, so it can respond to visitors queries better.<br/>
+                        You have to enter an input query, and provide a response sentence to that input query.<br/> 
+                        After that click on the button Train and it will remember that input-response pair and copy the response to the input field <br/>
+                        so you can continue adding the input-response pairs in a conversation-like way.<br/>
+                        Wildcard notation (*) can also be used, to denote terms/phrases in the input query.
+                    </p>
+                    <label for="input_sentence"/>
+                    <field name="input_sentence"/>
+                    <label for="response_sentence"/>
+                    <field name="response_sentence"/>
+                    <button type="object" name="action_train" string="Train" />
+                    <br/>
+                    <h3>Import data from file:</h3>
+                    <br/>
+                    <p class="oe_grey">
+                        You can also upload a .csv or .yml file containing many of these input-response pairs.<br/> 
+                        After that click on the button Train and it will load all the data from the file and train the chatbot with inputs/responses from the specified file.
+                    </p>
+                    <group>
+	                    <field name="data_file" filename="filename" placeholder="Choose a .csv file to import..."/>
+	                    <field name="filename" invisible="1"/>
+	                    <button type="object" name="action_train_from_file" string="Train from file" />
+                    </group>
+                    <br/>
+                    <h3>Export chatbot's database to a file:</h3>
+                    <br/>
+                    <p class="oe_grey">
+                        Clicking the 'Export database' button below will save the chatbot training data (chatbot's database) into a simple text file which you can view. You can also modify this file and import it by clicking the above 'Train from file' button.<br/>
+                    </p>
+                    <group colspan="6" col="4">
+	                    <button type="object" name="action_export_db" string="Export database" force_save="1"/>
+	                    
+	                    <field name="file_save" filename="file_save_name" attrs="{'invisible':[('file_save','=', False)]}" options="{&quot;always_reload&quot;: True}" track_visibility="onchange" force_save="1"/>
+	                    <field name="file_save_name" invisible="1" options="{&quot;always_reload&quot;: True}" track_visibility="onchange" force_save="1"/>
+                    </group>
+                    <br/>
+                    <h3>Reset chatbot's database:</h3>
+                    <br/>
+                    <p class="oe_grey">
+                        Clicking the 'Reset database' button below will delete/drop the chatbot training data (chatbot's database). When you click the button it will also export it to a file above, so you can save it and import it back. <br/>
+                        Do this if you want to start from a fresh chatbot instance and import the data from scratch (i.e. exporting the current data and modifying it and then importing it with the Train from file button above).<br/>
+                    </p>
+                    <group>
+	                    <button type="object" name="action_drop_db" string="Reset database" />
+                    </group>
+                    <br/>
+                    <h3>Load initial training data into the database:</h3>
+                    <br/>
+                    <p class="oe_grey">
+                        Selecting the language and clicking the 'Load initial data' button below will load this data into the chatbot's database. <br/>
+                        You can take a look at the data by exporting the database into a file and going through it there/import it back after any edits.<br/>
+                    </p>
+                    <group>
+	                    <field name="train_lang" nolabel="1"/>
+	                    <separator/>
+	                    <button type="object" name="action_load_initial_english" string="Load initial data" />
+                    </group>
+                    <br/>
+                    <h3>Train from Twitter data:</h3>
+                    <br/>
+                    <p class="oe_grey">
+                        It's possible to train the chatbot from data gathered from Twitter. Make sure you enter Twitter API keys and access token data under Chatbot Settings menu. <br/>
+                        After that you can click the Train from Twitter button and it will load the data from Twitter to the chatbot's database, this might take a while.<br/>
+                    </p>
+                    <group>
+	                    <button type="object" name="action_train_from_twitter" string="Train from Twitter" />
+                    </group>
+                    
+                </form>
+            </field>
+        </record>
+        
+        
+        <!-- Notify phrases -->
+        <record id="im_livechat_notify_phrases_view_tree" model="ir.ui.view">
+            <field name="name">im_livechat.chatbot_notify.tree</field>
+            <field name="model">im_livechat.chatbot_notify</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="notify_user_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_chatbot_notify_phrases" model="ir.actions.act_window">
+            <field name="name">Notify Phrases</field>
+            <field name="res_model">im_livechat.chatbot_notify</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="im_livechat_notify_phrases_view_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new notify phrase.
+              </p><p>
+                Notify phrases are sentences (or parts of sentences)
+                which will trigger an email notification to the specified user, if a website visitor enters it into the chat window.
+                If User To Notify is empty, then it will send an email notification to chatbot's email address (defined in the chatbot's partner record). <br/><br/>
+                You can use the * character to denote a wildcard, i.e. 'Hi*' will capture all the phrases which begin with Hi, like 'Hi there!'.
+              </p>
+            </field>
+        </record>
+        
+        
+		<record id="action_chatbot_training" model="ir.actions.act_window">
+			<field name="name">Chatbot Training</field>
+			<field name="view_id" ref="livechat_chatbot_training_form_id" />
+			<field name="res_model">im_livechat.chatbot_training</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+		</record>
+        
+        <menuitem id="chatbot_menu_root" parent="im_livechat.menu_livechat_root" name="Chatbot" sequence="51"/>
+        <menuitem action="action_chatbot_training" id="chatbot_training_menu_id" parent="chatbot_menu_root" name="Training" sequence="95"/>
+        <menuitem action="action_chatbot_notify_phrases" id="chatbot_notify_phrases_menu_id" parent="chatbot_menu_root" name="Notify Phrases" sequence="96"/>
+
+    </data>
+</odoo>

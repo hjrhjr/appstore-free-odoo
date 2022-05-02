@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+            Integrate ChatBot Conversation in the Mail Chat Client Action
+        -->
+        <template id="assets_frontend" inherit_id="website_livechat.assets_frontend" name="im_chatbot assets frontend">
+            <xpath expr="//script[@src='/im_livechat/static/src/js/im_livechat.js']" position="after">
+                <script type="text/javascript" src="/im_chatbot/static/src/js/im_livechat.js" />
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

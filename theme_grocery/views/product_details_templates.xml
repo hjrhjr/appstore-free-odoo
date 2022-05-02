@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+  <template id="product_page" inherit_id="website_sale.product" name="Product">
+    <xpath expr="//section[@id='product_detail']" position="before">
+      <div class="kanak_breadcrumb">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a t-att-href="keep(category=0)">Products</a></li>
+                <li class="breadcrumb-item" t-if="category">
+                  <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)" t-field="category.name" />
+                </li>
+                <li class="breadcrumb-item active"><span t-field="product.name" /></li>
+              </ol>
+            </div>
+            <div id="website_published_button" class="col-sm-3">
+            </div>
+          </div>
+        </div>
+      </div>
+    </xpath>
+    <xpath expr="//section[@id='product_detail']/div[hasclass('row')][1]" position="replace">
+    </xpath>
+    <xpath expr="//section[@id='product_detail']/div[hasclass('row')][1]/div[hasclass('col-md-6')][1]" position="attributes">
+      <!-- Theme Modify -->
+      <!-- <attribute name="class">col-md-7</attribute> -->
+      <attribute name="class">col-md-12 col-lg-7</attribute>
+      
+    </xpath>
+    <xpath expr="//div[@id='product_details']" position="attributes">
+      <!-- Theme Modify -->
+      <!-- <attribute name="class">col-sm-5 col-lg-5 col-xs-12</attribute> -->
+      <attribute name="class">col-md-12 col-lg-5 font-montserrat</attribute>
+    </xpath>
+    <xpath expr="//div[@id='product_details']/span" position="after">
+      <t t-set="product_avg_rating" t-value="website.get_product_avg_rating(product)"/>
+      <div class="star-rating" t-att-title="'Average Rating: %s' % product_avg_rating">
+        <span class="fa fa-star-o" data-rating="1"></span>
+        <span class="fa fa-star-o" data-rating="2"></span>
+        <span class="fa fa-star-o" data-rating="3"></span>
+        <span class="fa fa-star-o" data-rating="4"></span>
+        <span class="fa fa-star-o" data-rating="5"></span>
+        <input type="hidden" name="product_rating" class="rating-value" t-att-value="product_avg_rating or '0'"/>
+        <span class="reviewCount"><t t-esc="product.rating_count"/> Reviews</span> <span class="review_seprate">|</span> 
+        <a class="action_review" href="#discussion">Add Your Review</a>
+      </div>
+    </xpath>
+    <xpath expr="//t[@t-call='website_sale.product_price']" position="replace">
+    </xpath>
+    <xpath expr="//form//t[@t-placeholder='select']" position="before">
+      <t t-call="website_sale.product_price" />
+    </xpath>
+    <xpath expr="//div[@id='product_details']/p[hasclass('text-muted')]" position="replace">
+      <p class="text-muted">
+        Standard Delivery: Tomorrow Morning<br />
+        Free Shipping in India<br />
+        Buy now, get in 24 hours
+      </p>
+    </xpath>
+    <xpath expr="//div[@id='product_full_description']" position="replace">
+      <section class="product_desc mt32 mb32">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-3 tab-menu">
+                <div class="row">
+                  <ul class="nav nav-tabs tabs-left">
+                    <li><a href="#overview" data-toggle="tab" class="active show">Overview</a></li>
+                    <li><a href="#specifications" data-toggle="tab">Specifications</a></li>
+                    <li><a href="#reviews" data-toggle="tab">Reviews</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-9 tab-contains">
+                <div class="row">
+                  <div class="tab-content">
+                    <div class="tab-pane active show" id="overview">
+                      <div itemprop="description" t-field="product.website_description" class="oe_structure mt16" id="product_full_description" />
+                    </div>
+                    <div class="tab-pane" id="specifications">
+                    </div>
+                    <div class="tab-pane" id="reviews">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </xpath>
+  </template>
+
+  <template id="product_page_variant" inherit_id="sale.variants" name="Grocery Product Variants">
+    <xpath expr="//li[hasclass('js_attribute_value')]" position="replace">
+      <li class="form-group js_attribute_value radio" style="margin: 0;">
+          <label class="col-form-label">
+              <div>
+                  <input type="radio"
+                      t-attf-class="js_variant_change radio_input #{ptal.attribute_id.create_variant}"
+                      t-att-checked="ptav in combination"
+                      t-att-name="'ptal-%s' % ptal.id"
+                      t-att-value="ptav.id"
+                      t-att-data-value_id="ptav.id"
+                      t-att-data-value_name="ptav.name"
+                      t-att-data-attribute_name="ptav.attribute_id.name"
+                      t-att-data-is_custom="ptav.is_custom"
+                      t-att-data-is_single_and_custom="single_and_custom" />
+                  <span class="cr"><i class="cr-icon fa fa-circle"></i></span>
+                  <span style="font-weight: normal" t-field="ptav.name" />
+                  <span class="badge badge-pill badge-secondary" t-if="ptav.price_extra">
+                      <!-- see note above about price_extra -->
+                      <t t-esc="ptav.price_extra > 0 and '+' or '-'"/>
+                      <span t-esc="abs(ptav.price_extra)" class="variant_price_extra" style="white-space: nowrap;"
+                          t-options='{
+                              "widget": "monetary",
+                              "from_currency": product.currency_id,
+                              "display_currency": (pricelist or product).currency_id
+                          }'/>
+                  </span>
+              </div>
+          </label>
+      </li>
+    </xpath>
+  </template>
+
+  <record id="website_sale_comparison.product_attributes_body" model="ir.ui.view">
+    <field name="customize_show" eval="False"/>
+    <field name="active" eval="False"/>
+  </record>
+  <template id="product_specifications" inherit_id="theme_grocery.product_page" name="Product Specifications">
+    <xpath expr="//div[@id='specifications']" position="inside">
+      <section class="container" id="product_full_spec">
+        <t t-set="categories" t-value="product.valid_product_template_attribute_line_ids._prepare_categories_for_display()"/>
+        <t t-if='categories'>
+          <h3 class="text-center mb32">Specifications for <t t-esc="product.name"/></h3>
+          <div class="row">
+            <div class='col-lg-8 offset-lg-2' id='product_specifications'>
+              <table class='table table-striped table-sm table-hover'>
+                <t t-foreach="categories" t-as="category">
+                  <t t-if="len(categories) > 1">
+                    <tr class="clickable" data-toggle="collapse" t-att-data-target="'.o_ws_category_%d' % category.id">
+                      <th class="text-left" t-att-colspan="2">
+                        <span t-if="category" t-field="category.name"/>
+                        <span t-else="">Uncategorized</span>
+                      </th>
+                    </tr>
+                  </t>
+                  <tr t-foreach="categories[category].filtered(lambda l: len(l.value_ids) > 1)" t-as="ptal" t-att-class="'collapse show o_ws_category_%d' % category.id">
+                    <td><span t-field="ptal.attribute_id.name"/></td>
+                    <td>
+                      <t t-foreach="ptal.value_ids" t-as="pav">
+                        <span t-field="pav.name"/><t t-if="not pav_last"> or</t>
+                      </t>
+                    </td>
+                  </tr>
+                  <t t-set="single_value_attributes" t-value="categories[category]._prepare_single_value_for_display()"/>
+                  <tr t-foreach="single_value_attributes" t-as="attribute" t-att-class="'collapse show o_ws_category_%d' % category.id">
+                    <td><span t-field="attribute.name"/></td>
+                    <td>
+                      <t t-foreach="single_value_attributes[attribute]" t-as="ptal">
+                        <span t-field="ptal.product_template_value_ids._only_active().name"/><t t-if="not ptal_last">, </t>
+                      </t>
+                    </td>
+                  </tr>
+                </t>
+              </table>
+            </div>
+          </div>
+        </t>
+      </section>
+    </xpath>
+  </template>
+
+  <record id="website_sale.product_comment" model="ir.ui.view">
+    <field name="customize_show" eval="False"/>
+    <field name="active" eval="False"/>
+  </record>
+  <template id="product_reviews" inherit_id="theme_grocery.product_page" name="Reviews">
+    <xpath expr="//div[@id='reviews']" position="inside">
+      <div class="o_shop_discussion_rating">
+        <section class="container mb16">
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="text-center mt0 mb32" style="color: #444;">Reviews for <t t-esc="product.name"/></h3>
+              <t t-call="portal.message_thread">
+                <t t-set="object" t-value="product"/>
+                <t t-set="display_rating" t-value="True"/>
+              </t>
+            </div>
+          </div>
+        </section>
+      </div>
+    </xpath>
+  </template>
+
+</data>
+</odoo>

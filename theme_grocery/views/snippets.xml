@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="theme_grocery_snippet_options" inherit_id="website.snippet_options">
+        <xpath expr="//we-select[@data-variable='header-template']/we-button[last()]" position="after">
+            <we-button title="Theme Grocery Header Style - 1"
+                data-customize-website-views="theme_grocery.website_glossary_header_style_1"
+                data-customize-website-variable="'wgh_header_style_1'"
+                data-img="/theme_grocery/static/src/img/header_1.png"/>
+        </xpath>
+        <xpath expr="//we-select[@data-variable='footer-template']/we-button[last()]" position="after">
+            <we-button title="Theme Grocery Footer Style - 1"
+                data-customize-website-views="theme_grocery.template_footer_style_1"
+                data-customize-website-variable="'wgh_footer_style_1'"
+                data-img="/theme_grocery/static/src/img/footer_1.png"/>
+        </xpath>
+    </template>
+</odoo>

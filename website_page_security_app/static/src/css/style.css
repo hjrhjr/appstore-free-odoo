@@ -1,0 +1,12 @@
+.minus {
+    display: inline-block;
+}
+
+.d-none {
+    display: none;
+}
+
+.input-group-prepend-button {
+  display: -ms-flexbox;
+  display: flex;
+}

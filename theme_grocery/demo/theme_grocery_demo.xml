@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Theme Modify -->
+		<!-- Grocery Categories -->
+		<!-- <record id="demo_ecommerece_category1" model="product.public.category">
+			<field name="name">Fruits &amp; Vegetables</field>
+		</record>
+		<record id="demo_category1" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category1"></field>
+		</record>
+		<record id="demo_ecommerece_category2" model="product.public.category">
+			<field name="name">Herbs &amp; Seasonings</field>
+		</record>
+		<record id="demo_category2" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category2"></field>
+		</record>
+		<record id="demo_ecommerece_category3" model="product.public.category">
+			<field name="name">Bakery, Cakes &amp; Dairy</field>
+		</record>
+		<record id="demo_category3" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category3"></field>
+		</record>
+		<record id="demo_ecommerece_category4" model="product.public.category">
+			<field name="name">Bakery Snacks</field>
+		</record>
+		<record id="demo_category4" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category4"></field>
+		</record>
+		<record id="demo_ecommerece_category5" model="product.public.category">
+			<field name="name">Beauty &amp; Hygiene</field>
+		</record>
+		<record id="demo_category5" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category5"></field>
+		</record>
+		<record id="demo_ecommerece_category6" model="product.public.category">
+			<field name="name">Foodgrains, Oil &amp; Masala</field>
+		</record>
+		<record id="demo_category6" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category6"></field>
+		</record>
+		<record id="demo_ecommerece_category7" model="product.public.category">
+			<field name="name">Dry Fruits</field>
+		</record>
+		<record id="demo_category7" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category7"></field>
+		</record>
+		<record id="demo_ecommerece_category8" model="product.public.category">
+			<field name="name">Rice &amp; Rice Products</field>
+		</record>
+		<record id="demo_category8" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category8"></field>
+		</record>
+		<record id="demo_ecommerece_category9" model="product.public.category">
+			<field name="name">Beverages</field>
+		</record>
+		<record id="demo_category9" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category9"></field>
+		</record>
+		<record id="demo_ecommerece_category10" model="product.public.category">
+			<field name="name">Snacks &amp; Branded Foods</field>
+		</record>
+		<record id="demo_category10" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category10"></field>
+		</record>
+		<record id="demo_ecommerece_category11" model="product.public.category">
+			<field name="name">Eggs, Meat &amp; Fish</field>
+		</record>
+		<record id="demo_category11" model="homepage.categories">
+			<field name="category_id" ref="demo_ecommerece_category11"></field>
+		</record> -->
+
+		<!-- Homepage Slider -->
+		<record id="demo_homepage_slider1" model="homepage.slider">
+			<field name="name">theme_grocery.slide1</field>
+		    <field name="link">/theme_grocery/static/src/img/slide1.jpeg</field>
+		    <field name="image" type="base64" file="theme_grocery/static/src/img/slide1.jpeg"/>
+		    <field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_Slider_1.png"/>
+		</record>
+		<record id="demo_homepage_slider2" model="homepage.slider">
+			<field name="name">theme_grocery.slide2</field>
+		    <field name="link">/theme_grocery/static/src/img/slide2.jpeg</field>
+		    <field name="image" type="base64" file="theme_grocery/static/src/img/slide2.jpeg"/>
+		    <field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_Slider_2.png"/>
+		</record>
+
+		<!-- Horizontal Banner -->
+		<record id="demo_horizontal_banner1" model="homepage.horizontal.banner">
+			<field name="name">Breakfast foods</field>
+			<field name="sub_heading">Shop early in store end</field>
+			<field name="link">/theme_grocery/static/src/img/hb1.png</field>
+		    <field name="image" type="base64" file="theme_grocery/static/src/img/hb1.png"/>
+		    <field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_hb1.png"/>
+		</record>
+		<record id="demo_horizontal_banner2" model="homepage.horizontal.banner">
+			<field name="name">Cooking suppliers</field>
+			<field name="sub_heading">Sale 25% off</field>
+			<field name="link">/theme_grocery/static/src/img/hb2.png</field>
+		    <field name="image" type="base64" file="theme_grocery/static/src/img/hb2.png"/>
+		    <field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_hb1.png"/>
+		</record>
+		<record id="demo_horizontal_banner3" model="homepage.horizontal.banner">
+			<field name="name">Meal essentials</field>
+			<field name="sub_heading">24 products</field>
+			<field name="link">/theme_grocery/static/src/img/hb3.png</field>
+		    <field name="image" type="base64" file="theme_grocery/static/src/img/hb3.png"/><field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_hb1.png"/>
+		</record>
+
+		<!-- Featured product -->
+		<record id="demo_product1" model="product.template">
+			<field name="name">Dettol Antiseptic Liquid</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">5.27</field>
+            <field name="list_price">5.27</field>
+            <field name="type">consu</field>
+            <field name="weight">210</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">dettol_anti</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img1.png"/>
+		</record>
+		<record id="demo_featured_product1" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product1"></field>
+		</record>
+		<record id="demo_product2" model="product.template">
+			<field name="name">Fresho Rohu Fish</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">11.77</field>
+            <field name="list_price">11.77</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">rohu_fish</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img2.jpg"/>
+		</record>
+		<record id="demo_featured_product2" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product2"></field>
+		</record>
+		<record id="demo_product3" model="product.template">
+			<field name="name">Maggi Cheese Macaroni Pazzta</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">2.60</field>
+            <field name="list_price">2.60</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">maggi_pasta</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img3.jpg"/>
+		</record>
+		<record id="demo_featured_product3" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product3"></field>
+		</record>
+		<record id="demo_product4" model="product.template">
+			<field name="name">Aashirwaad Atta - Wheat</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">6.88</field>
+            <field name="list_price">6.88</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">atta_wheat</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img4.jpg"/>
+		</record>
+		<record id="demo_featured_product4" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product4"></field>
+		</record>
+		<record id="demo_product5" model="product.template">
+			<field name="name">Disano Pasta - Penne Regate</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">11.62</field>
+            <field name="list_price">11.62</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">disano_pasta</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img5.jpg"/>
+		</record>
+		<record id="demo_featured_product5" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product5"></field>
+		</record>
+		<record id="demo_product6" model="product.template">
+			<field name="name">Heinz Tomato Ketchup</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">13.07</field>
+            <field name="list_price">13.07</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">heinz_ketchup</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img6.jpg"/>
+		</record>
+		<record id="demo_featured_product6" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product6"></field>
+		</record>
+		<record id="demo_product7" model="product.template">
+			<field name="name">Maggi Noodles</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">2.08</field>
+            <field name="list_price">2.08</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">maggi_nood</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img7.jpg"/>
+		</record>
+		<record id="demo_featured_product7" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product7"></field>
+		</record>
+		<record id="demo_product8" model="product.template">
+			<field name="name">Apple</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">30.65</field>
+            <field name="list_price">30.65</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">appl</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img8.jpeg"/>
+		</record>
+		<record id="demo_featured_product8" model="featured.product">
+			<field name="product_tmpl_id" ref="demo_product8"></field>
+		</record>
+
+		<!-- bestseller product -->
+		<record id="demo_product9" model="product.template">
+			<field name="name">Bread</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">1.06</field>
+            <field name="list_price">1.06</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">bread</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img9.jpeg"/>
+		</record>
+		<record id="demo_bestseller_product1" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product9"></field>
+		</record>
+		<record id="demo_product10" model="product.template">
+			<field name="name">Amul Milk</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">1.02</field>
+            <field name="list_price">1.02</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">mlk</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img10.jpg"/>
+		</record>
+		<record id="demo_bestseller_product2" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product10"></field>
+		</record>
+		<record id="demo_product11" model="product.template">
+			<field name="name">Eggs</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">2</field>
+            <field name="list_price">2</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">egg</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img11.jpeg"/>
+		</record>
+		<record id="demo_bestseller_product3" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product11"></field>
+		</record>
+		<record id="demo_product12" model="product.template">
+			<field name="name">Amul Dahi</field>
+            <field name="categ_id" ref="product.product_category_5"/>
+            <field name="standard_price">1.10</field>
+            <field name="list_price">1.10</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">dahi</field>
+            <field name="image_1920" type="base64" file="theme_grocery/static/src/img/product_img12.jpg"/>
+		</record>
+		<record id="demo_bestseller_product4" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product5"></field>
+		</record>
+		<record id="demo_bestseller_product5" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product2"></field>
+		</record>
+		<record id="demo_bestseller_product6" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product3"></field>
+		</record>
+		<record id="demo_bestseller_product7" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product8"></field>
+		</record>
+		<record id="demo_bestseller_product8" model="bestseller.product">
+			<field name="product_tmpl_id" ref="demo_product6"></field>
+		</record>
+
+		<!-- Latest Prouct -->
+		<record id="demo_latest_product1" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product12"/>
+		</record>
+		<record id="demo_latest_product2" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product2"/>
+		</record>
+		<record id="demo_latest_product3" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product8"/>
+		</record>
+		<record id="demo_latest_product4" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product5"/>
+		</record>
+		<record id="demo_latest_product5" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product11"/>
+		</record>
+		<record id="demo_latest_product6" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product10"/>
+		</record>
+		<record id="demo_latest_product7" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product7"/>
+		</record>
+		<record id="demo_latest_product8" model="latest.product">
+			<field name="product_tmpl_id" ref="demo_product4"/>
+		</record>
+
+		<!-- horizontal full banner -->
+		<record id="demo_horizontal_full_banner" model="homepage.horizontal.full.banner">
+			<field name="name">theme_grocery.hb_full</field>
+			<field name="link">/theme_grocery/static/src/img/add-2.jpg</field>
+			<field name="image" type="base64" file="theme_grocery/static/src/img/add-2.jpg"/>
+			<field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_hori.png"/>
+		</record>
+
+		<!-- horizontal half banner -->
+		<record id="demo_horizontal_half_banner1" model="homepage.horizontal.half.banner">
+			<field name="name">theme_grocery.hb_half1</field>
+			<field name="link">/theme_grocery/static/src/img/add-3.jpg</field>
+			<field name="image" type="base64" file="theme_grocery/static/src/img/add-3.jpg"/>
+			<field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_hori_half.png"/>
+		</record>
+		<record id="demo_horizontal_half_banner2" model="homepage.horizontal.half.banner">
+			<field name="name">theme_grocery.hb_half2</field>
+			<field name="link">/theme_grocery/static/src/img/add-4.jpg</field>
+			<field name="image" type="base64" file="theme_grocery/static/src/img/add-4.jpg"/>
+			<field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_hori_half.png"/>
+		</record>
+
+		<!-- customer testimony -->
+		<record id="demo_customer_testimony" model="customer.testimonial">
+			<field name="name">John Wick</field>
+			<field name="review">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</field>
+			<field name="image" type="base64" file="theme_grocery/static/src/img/testi1.jpeg"/>
+		</record>
+
+		<!-- vertical banner -->
+		<record id="demo_vertical_banner" model="homepage.vertical.banner">
+			<field name="name">theme_grocery.vertical_banner</field>
+			<field name="link">/theme_grocery/static/src/img/add-1.jpg</field>
+			<field name="image" type="base64" file="theme_grocery/static/src/img/add-1.jpg"/>
+			<field name="rtl_image" type="base64" file="theme_grocery/static/src/img/RTL_vertical.png"/>
+		</record>
+	</data>
+</odoo>

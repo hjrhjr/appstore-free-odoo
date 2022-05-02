@@ -1,0 +1,49 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+
+
+}
+
+.overlay4 {
+  position: absolute;
+  top: 54%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+
+
+}
+
+
+.overlay2 {
+  position: absolute;
+  top: 10;
+  bottom: 0;
+  left: 10;
+  right: 0;
+  height: 4%;
+  width: 15%;
+  transition: .5s ease;
+}
+.overlay3 {
+  position: absolute;
+  top: 10;
+  bottom: 0;
+  left: 10;
+  right: 0;
+  height: 6%;
+  width: 14%;
+  transition: .5s ease;
+}

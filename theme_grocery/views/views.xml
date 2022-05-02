@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <menuitem id="menu_glossary" name="Grocery"
+        parent="website.menu_website_configuration"
+        sequence="15"
+        groups="website.group_website_designer"/>
+
+    <record id="homepage_categories_tree_view" model="ir.ui.view">
+        <field name="name">homepage.categories.tree</field>
+        <field name="model">homepage.categories</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Homepage Categories" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="category_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_homepage_categories_action" model="ir.actions.act_window">
+        <field name="name">Homepage Categories</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">homepage.categories</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add category on homepage.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_homepage_categories"
+        action="menu_homepage_categories_action"
+        parent="menu_glossary" sequence="1"/>
+
+
+    <record id="homepage_slider_form_view" model="ir.ui.view">
+        <field name="name">homepage.slider.form</field>
+        <field name="model">homepage.slider</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <form string="Homepage Slider">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="link" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="image" widget='image' class="oe_avatar"/>
+                            <field name="rtl_image" widget='image' class="oe_avatar"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="homepage_slider_tree_view" model="ir.ui.view">
+        <field name="name">homepage.slider.tree</field>
+        <field name="model">homepage.slider</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Homepage Slider">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="link"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_homepage_slider_action" model="ir.actions.act_window">
+        <field name="name">Homepage Slider</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">homepage.slider</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add slider on homepage.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_homepage_slider"
+        action="menu_homepage_slider_action"
+        parent="menu_glossary" sequence="1"/>
+
+
+    <record id="homepage_horizontal_banner_form_view" model="ir.ui.view">
+        <field name="name">homepage.horizontal.banner.form</field>
+        <field name="model">homepage.horizontal.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <form string="Homepage Horizontal Banner">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sub_heading"/>
+                            <field name="link" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="image" widget='image' class="oe_avatar"/>
+                            <field name="rtl_image" widget='image' class="oe_avatar"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="homepage_horizontal_banner_tree_view" model="ir.ui.view">
+        <field name="name">homepage.horizontal.banner.tree</field>
+        <field name="model">homepage.horizontal.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Homepage Horizontal Banner">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="sub_heading"/>
+                <field name="link"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_homepage_horizontal_banner_action" model="ir.actions.act_window">
+        <field name="name">Homepage Horizontal Banner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">homepage.horizontal.banner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add horizontal banner on homepage.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_homepage_horizontal_banner"
+        action="menu_homepage_horizontal_banner_action"
+        parent="menu_glossary" sequence="2"/>
+
+
+    <record id="featured_product_tree_view" model="ir.ui.view">
+        <field name="name">featured.product.tree</field>
+        <field name="model">featured.product</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Featured Product" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="product_tmpl_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_featured_product_action" model="ir.actions.act_window">
+        <field name="name">Featured Product</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">featured.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add featured products.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_featured_product"
+        action="menu_featured_product_action"
+        parent="menu_glossary" sequence="3"/>
+
+
+    <record id="bestseller_product_tree_view" model="ir.ui.view">
+        <field name="name">bestseller.product.tree</field>
+        <field name="model">bestseller.product</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Bestseller Product" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="product_tmpl_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_bestseller_product_action" model="ir.actions.act_window">
+        <field name="name">Bestseller Product</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bestseller.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add bestseller products.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_bestseller_product"
+        action="menu_bestseller_product_action"
+        parent="menu_glossary" sequence="4"/>
+
+    <record id="latest_product_tree_view" model="ir.ui.view">
+        <field name="name">latest.product.tree</field>
+        <field name="model">latest.product</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Latest Product" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="product_tmpl_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_latest_product_action" model="ir.actions.act_window">
+        <field name="name">Latest Product</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">latest.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add Latest products.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_latest_product"
+        action="menu_latest_product_action"
+        parent="menu_glossary" sequence="5"/>
+
+    <record id="homepage_horizontal_full_banner_form_view" model="ir.ui.view">
+        <field name="name">homepage.horizontal.full.banner.form</field>
+        <field name="model">homepage.horizontal.full.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <form string="Homepage Banner">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="link" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="image" widget='image' class="oe_avatar"/>
+                            <field name="rtl_image" widget='image' class="oe_avatar"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="homepage_horizontal_full_banner_tree_view" model="ir.ui.view">
+        <field name="name">homepage.horizontal.full.banner.tree</field>
+        <field name="model">homepage.horizontal.full.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Homepage Banner">
+                <field name="name"/>
+                <field name="link"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_homepage_horizontal_full_banner_action" model="ir.actions.act_window">
+        <field name="name">Homepage Horizontal Full Banner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">homepage.horizontal.full.banner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add banner on homepage.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_homepage_horizontal_full_banner"
+        action="menu_homepage_horizontal_full_banner_action"
+        parent="menu_glossary" sequence="6"/>
+
+
+    <record id="homepage_horizontal_half_banner_form_view" model="ir.ui.view">
+        <field name="name">homepage.horizontal.half.banner.form</field>
+        <field name="model">homepage.horizontal.half.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <form string="Homepage Banner">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="link" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="image" widget='image' class="oe_avatar"/>
+                            <field name="rtl_image" widget='image' class="oe_avatar"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="homepage_horizontal_half_banner_tree_view" model="ir.ui.view">
+        <field name="name">homepage.horizontal.half.banner.tree</field>
+        <field name="model">homepage.horizontal.half.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Homepage Banner">
+                <field name="name"/>
+                <field name="link"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_homepage_horizontal_half_banner_action" model="ir.actions.act_window">
+        <field name="name">Homepage Horizontal Half Banner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">homepage.horizontal.half.banner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add banner on homepage.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_homepage_horizontal_half_banner"
+        action="menu_homepage_horizontal_half_banner_action"
+        parent="menu_glossary" sequence="7"/>
+
+
+    <record id="homepage_homepage_vertical_banner_form_view" model="ir.ui.view">
+        <field name="name">homepage.vertical.banner.form</field>
+        <field name="model">homepage.vertical.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <form string="Homepage Banner">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="link" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="image" widget='image' class="oe_avatar"/>
+                            <field name="rtl_image" widget='image' class="oe_avatar"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="homepage_homepage_vertical_banner_tree_view" model="ir.ui.view">
+        <field name="name">homepage.vertical.banner.tree</field>
+        <field name="model">homepage.vertical.banner</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Homepage Banner">
+                <field name="name"/>
+                <field name="link"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_homepage_homepage_vertical_banner_action" model="ir.actions.act_window">
+        <field name="name">Homepage Vertical Banner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">homepage.vertical.banner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add banner on homepage.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_homepage_vertical_banner"
+        action="menu_homepage_homepage_vertical_banner_action"
+        parent="menu_glossary" sequence="8"/>
+
+
+    <record id="customer_testimonial_form_view" model="ir.ui.view">
+        <field name="name">customer.testimonial.form</field>
+        <field name="model">customer.testimonial</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <form string="Customer Testimonials">
+                <sheet>
+                    <field name="image" widget='image' class="oe_avatar"/>
+                    <div class="oe_left">
+                        <group>
+                            <field name="name"/>
+                            <field name="review"/>
+                        </group>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="customer_testimonial_tree_view" model="ir.ui.view">
+        <field name="name">customer.testimonial.tree</field>
+        <field name="model">customer.testimonial</field>
+        <field name="field_parent" eval="False"/>
+        <field name="arch" type="xml">
+            <tree string="Customer Testimonials">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="review"/>
+            </tree>
+        </field>
+    </record>
+    <record id="menu_customer_testimonial_action" model="ir.actions.act_window">
+        <field name="name">Customer Testimonial</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customer.testimonial</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to add bestseller products.
+          </p><p>
+          </p>
+        </field>
+    </record>
+    <menuitem id="menu_customer_testimonial"
+        action="menu_customer_testimonial_action"
+        parent="menu_glossary" sequence="9"/>
+
+</data>
+</odoo>

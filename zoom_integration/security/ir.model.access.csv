@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_zoom_meeting_external_user,zoom_meeting.external_user,model_zoom_meeting_external_user,base.group_user,1,1,1,1
+access_zoom_meeting_external_portal,zoom_meeting.external_portal,model_zoom_meeting_external_user,base.group_portal,1,1,1,1
+calendar.access_calendar_attendee_employee,calendar.attendee_employee,calendar.model_calendar_attendee,base.group_user,1,1,1,1

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+		<template id="assets_frontend" inherit_id="website.assets_frontend" name="Custom CSS-JS">
+			<xpath expr="." position="inside">
+				<link rel="stylesheet" href="/odoo_website_product_label/static/src/css/custom.css"/>
+			</xpath>
+		</template>
+		<!-- Product item used by /slider-->
+		<template id="product_listing_page_slide" inherit_id="kingfisher.kingfisher_cat_slider_view">
+		<!-- slider-->
+			<xpath expr="//div[@class='pwp-img']" position="inside">
+				<t t-if="slide.lst_price != slide.website_price">
+                    <t t-set="porc_variable" t-value="(slide.website_price / slide.lst_price ) * 100"/>
+                    <t t-set="porc_result" t-value="100 - round(porc_variable,1)"/>
+					 <div class="topleft">
+                         <span style="height:65px; width:65px; margin-top: 8px; position: absolute; left: 15px;                                       font-weight: bold; font-family: Arial; color: white; font-size: 17px;">
+                             <t t-esc="'%.0f'%porc_result"/> % OFF</span>
+						<span>
+							<img class="img img-responsive"
+								t-att-src="website.image_url(slide, 'label_image2')"
+								t-attf-style="height:65px; width:65px; margin-top: 1px; /*! position: absolute; */ left: 20px;                                       font-weight: bold; font-family: Arial; color: white; font-size: 17px;" />
+						</span>
+					 </div>
+		      	</t>
+			</xpath>
+		</template>
+
+		<!-- Product item used by /shop inherit -->
+		<template id="product_listing_page_extended" inherit_id='website_sale.products_item'>
+
+			<!-- Add Label on Shop/Product Listing Page -->
+			<xpath expr="//div[@class='cs-product']" position="inside">
+				<t t-if="product.lst_price != product.website_price">
+                    <t t-set="porc_variable" t-value="(product.website_price / product.lst_price ) * 100"/>
+                    <t t-set="porc_result" t-value="100 - round(porc_variable,1)"/>
+					 <div class="topleft">
+                         <span style="height:65px; width:65px; margin-top: 8px; position: absolute; left: 15px;                                       font-weight: bold; font-family: Arial; color: white; font-size: 17px;">
+                             <t t-esc="'%.0f'%porc_result"/> % OFF</span>
+						<span>
+							<img class="img img-responsive"
+								t-att-src="website.image_url(product, 'label_image2')"
+								t-attf-style="height:65px; width:65px; margin-top: 1px; /*! position: absolute; */ left: 20px;                                       font-weight: bold; font-family: Arial; color: white; font-size: 17px;" />
+						</span>
+					 </div>
+		      	</t>
+			</xpath>
+
+		</template>
+
+
+		<!-- /shop/product single product page -->
+		<template id="single_product_page_extended" inherit_id='website_sale.product'>
+
+			<!-- Add Label on Single Product Page -->
+			<xpath expr="//div[@class='col-sm-7']" position="inside">
+				<t t-if="product.lst_price != product.website_price">
+                    <t t-set="porc_variable" t-value="(product.website_price / product.lst_price ) * 100"/>
+                    <t t-set="porc_result" t-value="100 - round(porc_variable,1)"/>
+					 <div class="topleft">
+                         <span style="height:65px; width:65px; margin-top: 8px; position: absolute; left: 15px;                                       font-weight: bold; font-family: Arial; color: white; font-size: 17px;">
+                             <t t-esc="'%.0f'%porc_result"/> % OFF</span>
+						<span>
+							<img class="img img-responsive"
+								t-att-src="website.image_url(product, 'label_image2')"
+								t-attf-style="height:65px; width:65px; margin-top: 1px; /*! position: absolute; */ left: 20px;                                       font-weight: bold; font-family: Arial; color: white; font-size: 17px;" />
+						</span>
+					 </div>
+		      	</t>
+			</xpath>
+		
+		</template>
+    </data>
+</openerp>

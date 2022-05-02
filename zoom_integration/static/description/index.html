@@ -1,0 +1,275 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;text-align: center;">Odoo Zoom Integration</h2>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+            Overview
+        </h2>
+       <div>
+            <p class='oe_mt32'>
+                Use our Odoo Zoom meeting integration module to schedule, participate, update, or cancel Zoom meetings
+                from Odoo. Avoid logging into Zoom separately to attend your meetings. The module automatically syncs
+                meetings scheduled via Odoo with Zoom.
+
+            </p>
+       </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+            <img class="img-responsive" src="synchronization.jpg">
+    </div>
+</section>
+
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+            Working of Odoo Integration with Zoom
+        </h2>
+        <div class="oe_mt32">
+            <p class='oe_mt32'>
+
+             Users can follow these steps to successfully accomplish Zoom Meeting Integration with Odoo:
+           </p>
+        </div>
+        <div class="oe_mt32">
+           <ul>
+               <li>
+               Create an account in Zoom.
+               </li>
+               <li>
+Go to https://marketplace.zoom.us/ and create a JWT APP.   JWT apps provide an API Key and Secret required to authenticate with JWT. Activate the JWT APP.
+               </li>
+               <li>
+Go to Company Configuration in Odoo and configure API Key and Secret of JWAT App in Zoom Configuration Tab.
+               </li>
+               <li>
+Create a Zoom meeting in the Odoo Zoom Meetings Calendar. The meeting created in Odoo will automatically be linked to Zoom.
+               </li>
+               <li>
+Odoo users and external participants will receive the Zoom Meet invitation link by email.
+               </li>
+               <li>
+Odoo Users can automatically redirect to the Zoom Meetings Page from Odoo Application.
+               </li>
+           </ul>
+       </div>
+    </div>
+</section>
+
+
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+ZOOM API and Secret Key Generation
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+Go to https://marketplace.zoom.us/ and create a JWT APP. Fetch the API key and Secret
+
+           </p>
+        </div>
+        <div>
+            <img class="img-responsive" src="zoom_image1.png">
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+Company Configuration in Odoo
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+Go to Settings > Users & Companies > Companies. Configure the API Key and Secret in Zoom Configuration Tab.
+           </p>
+        </div>
+        <div >
+            <img class="img-responsive" src="zoom_image2.png">
+        </div>
+   </div>
+</section>
+
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+User Creation in Zoom
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+Users can be created in Zoom by proceeding following steps.
+           </p>
+           <p class='oe_mt32'>
+
+Go to Settings > Users & Companies > Zoom User Creation.
+           </p>
+           <p class='oe_mt32'>
+You need to mention the Odoo User in which the Zoom account needs to be created. Also you need to provide the First Name, Last Name, and Email in the Zoom User Creation window. The Zoom user account will be created in the pending status based on the email ID mentioned in the Zoom User Creation window. An email will be sent to the above email ID for Zoom user creation confirmation. Once the user confirms, a Zoom account will be created for the user in the confirmed state.
+           </p>
+        </div>
+        <div>
+            <img class="img-responsive" src="zoom_image3.png">
+        </div>
+        <div>
+           <p class='oe_mt32'>
+The Zoom User Email, Zoom User ID, and Zoom User Timezone will be stored in the User form.
+When a user logs into the application, Zoom meetings are created based on the email mentioned in the User form. The Created User and Zoom Admin User can only modify the Zoom meetings. Zoom Admin User is configured in the Company form. It's required to configure the main Zoom account email ID in the Zoom Admin User form.
+           </p>
+        </div>
+        <div>
+            <img class="img-responsive" src="zoom_image4.png">
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+Zoom Meeting Creation in Odoo
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+A separate menu named 'Zoom Meetings' is used for creating Zoom meetings in Odoo. So you can easily differentiate Zoom Meetings from other meetings.
+           </p>
+        </div>
+
+        <div>
+            <img class="img-responsive" src="zoom_image5.png">
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+Normal Zoom Meetings Listing
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+While creating a new meeting, there is an option to view all normal Zoom meetings created by the particular user (logged in user) for that particular day. The recurrent meeting created will not be listed in this option.
+            </p>
+        </div>
+        <div>
+            <img class="img-responsive" src="zoom_image6.png">
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+Zoom Meeting Creation with Additional Options
+
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+Zoom meetings can also be created with the additional options that can be configured in Meeting Configuration Tab > Meeting Option. This advanced option is based on the settings available in Zoom. You can also create password protected Zoom Meetings.
+            </p>
+        </div>
+
+        <div>
+            <img class="img-responsive" src="zoom_image7.png">
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+Created Meetings in Zoom
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+The Zoom meeting created via Odoo will be automatically linked to Zoom. The same can be accessed from the Meetings menu in Zoom as well.
+            </p>
+        </div>
+
+        <div>
+            <img class="img-responsive" src="zoom_image8.png">
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+Meeting Invitation Link to Internal Users and External Participants
+
+        </h2>
+        <div >
+           <p class='oe_mt32'>
+Meeting Invitation link can be sent to Internal users and other external users which can be configured via Invitations Tab > External Participants
+            </p>
+        </div>
+
+        <div>
+            <img class="img-responsive" src="zoom_image9.png">
+        </div>
+   </div>
+</section>
+
+
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: left;font-size: 28px;font-weight: 600;margin: 0px !important;">
+Join Zoom Meetings from Odoo
+        </h2>
+        <div>
+           <p class='oe_mt32'>
+You may join Zoom Meetings from Odoo Application. There is a button named Join Meeting to join Zoom meetings. It will be redirected automatically to the Zoom Meetings Page.
+            </p>
+        </div>
+
+        <div>
+            <img class="img-responsive" src="zoom_image10.png">
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#875A7B;text-align: center;">
+            Contact Us
+        </h2>
+           <div>
+                <p class='oe_mt32'>
+                   Fingent is a global IT company that provides strategic IT business solutions and services for complex business problems, in multiple industry sectors. We have offices and development centers located in the USA, Australia, UAE, and India. We customize open source technology by tailoring it to your specific business needs.
+
+                </p>
+                <p class='oe_mt32'>
+    Fingent is an Official Partner of Odoo and has hands-on expertise in consulting, implementation, and customization of Odoo for clients all over the world and belonging to multiple industries. Our Odoo implementation projects are tailored for easy adaptability. The emphasis we lay on maximizing the efficiency and user-friendliness of applications has made us a trusted partner for various organizations.
+                </p>
+                <p class='oe_mt32'>
+    We help you take advantage of the multiple apps and modules of Odoo, ranging from CRM to ERP and eCommerce to ECM. If you need any help with Odoo-Zoom integration or require additional solutions to enhance your daily business operations, you may contact us through:
+                </p>
+                <p class='oe_mt32'>
+                    <img src="email.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/>E-mail - <a href="mailto:product_support@fingent.com">product_support@fingent.com</a>
+                <br/>
+                    <img src="phone-call.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/>Phone - +1 (914) 615-9170
+                <br/>
+                    <img src="global.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/><a href="https://www.fingent.com" target="_blank">Website - https://www.fingent.com</a>
+                <br/>
+                <br/>
+                    <a href="https://www.facebook.com/Fingent" target="_blank"><img src="facebook.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/></a>
+                    <a href="https://www.youtube.com/channel/UCQ98oTZE4CWEEdV0rVRa2Uw" target="_blank"><img src="youtube.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/></a>
+                    <a href="https://twitter.com/fingent" target="_blank"><img src="twitter.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/></a>
+                    <a href="https://www.instagram.com/fingentcorporation/" target="_blank"><img src="instagram.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/></a>
+                    <a href="https://www.linkedin.com/company/fingent-technologies" target="_blank"><img src="linkedin.png" style="display: inline-block; height: 20px; margin-left: auto; margin-right: 12px;"/></a>
+                </p>
+           </div>
+     
+        <div>
+            <img class="img-responsive" src="contact_us.png">
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+        <record id="view_chatbot_config_settings" model="ir.ui.view">
+            <field name="name">Chatbot settings</field>
+            <field name="model">livechat.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Chatbot Settings" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link" special="cancel"/>
+                    </header>
+					<br/>
+                    <label for="id" string="Train the chatbot from data gathered from your Twitter account:"/>
+                    <br/>
+                    <div name="twitter_chatbot">
+                        <div>
+                            <p>Visit the <a href="https://dev.twitter.com/apps" target="_blank">Twitter's dev page</a> for more information on how to obtain the API keys.</p>
+                        </div>
+                        <br/>
+                        <div>
+                            <label for="TWITTER_CONSUMER_KEY" />
+                            <field name="TWITTER_CONSUMER_KEY" class="oe_inline"/>
+                            <separator/>
+                            <label for="TWITTER_CONSUMER_SECRET" />
+                           	<field name="TWITTER_CONSUMER_SECRET" class="oe_inline"/>
+                           	<separator/>
+                           	<label for="TWITTER_ACCESS_TOKEN" />
+                           	<field name="TWITTER_ACCESS_TOKEN" class="oe_inline"/>
+                           	<separator/>
+                           	<label for="TWITTER_ACCESS_TOKEN_SECRET" />
+                           	<field name="TWITTER_ACCESS_TOKEN_SECRET" class="oe_inline"/>
+                        </div>
+                        
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="action_livchat_chatbot_configuration" model="ir.actions.act_window">
+            <field name="name">Chatbot Settings</field>
+            <field name="res_model">livechat.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_livechat_settings" parent="chatbot_menu_root" sequence="97" name="Twitter Settings" action="action_livchat_chatbot_configuration"/>
+
+</odoo>

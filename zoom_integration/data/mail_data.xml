@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'calendar'), ('name', '=', 'calendar_template_meeting_invitation')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+    <function name="write" model="ir.model.data">
+        <function name="search" model="ir.model.data">
+            <value eval="[('module', '=', 'calendar'), ('name', '=', 'calendar_template_meeting_changedate')]"/>
+        </function>
+        <value eval="{'noupdate': False}"/>
+    </function>
+
+        <template id="mail.mail_notification_light">
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+            <tbody>
+                <!-- HEADER -->
+                <tr>
+                    <td align="center" style="min-width: 590px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: white; padding: 0; border-collapse:separate;">
+                            <tr>
+                           <td valign="middle" align="right">
+                                <img t-att-src="'/logo.png?company=%s' % company.id" style="padding: 0px; margin: 0px; height: 48px;" t-att-alt="'%s' % company.name"/>
+                            </td></tr>
+                            <tr><td colspan="2" style="text-align:center;">
+                              <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin:4px 0px 32px 0px;"/>
+                            </td></tr>
+                        </table>
+                    </td>
+                </tr>
+                <!-- CONTENT -->
+                <tr>
+                    <td style="min-width: 590px;">
+                        <t t-raw="message.body"/>
+                    </td>
+                </tr>
+                <!-- FOOTER -->
+                <tr>
+                    <td align="center" style="min-width: 590px; padding: 0 8px 0 8px; font-size:11px;">
+                        <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 4px 0px;"/>
+                        <b t-esc="company.name"/><br/>
+                        <div style="color: #999999;">
+                            <t t-esc="company.phone"/>
+                            <t t-if="company.email"> |
+                                <a t-att-href="'mailto:%s' % company.email" style="text-decoration:none; color: #999999;"><t t-esc="company.email"/></a>
+                            </t>
+                            <t t-if="company.website"> |
+                                <a t-att-href="'%s' % company.website" style="text-decoration:none; color: #999999;">
+                                    <t t-esc="company.website"/>
+                                </a>
+                            </t>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+            </td></tr>
+            </table>
+        </template>
+
+    <record id="calendar.calendar_template_meeting_invitation" model="mail.template">
+        <field name="name">Calendar: Meeting Invitation</field>
+        <field name="model_id" ref="calendar.model_calendar_attendee"/>
+        <field name="subject">Invitation to ${object.event_id.name}</field>
+        <field name="email_from">${(object.event_id.user_id.email_formatted or user.email_formatted or '') | safe}
+        </field>
+        <field name="email_to">
+            ${('' if object.partner_id.email and object.partner_id.email == object.email else object.email) | safe}
+        </field>
+        <field name="partner_to">
+            ${object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False}
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="body_html" type="html">
+            <div>
+                % set date=ctx.get('date')
+                % set colors = {'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00', 'declined': 'red'}
+                % if object.event_id.is_zoom_meeting == True:
+                <p>
+                    Hello ${object.common_name},
+                    <br/>
+                    <br/>
+                    ${object.event_id.user_id.partner_id.name} is inviting you to a scheduled Zoom meeting.
+                </p>
+                % else:
+                <p>
+                    Hello ${object.common_name},
+                    <br/>
+                    <br/>
+                    ${object.event_id.user_id.partner_id.name} invited you for the ${object.event_id.name} meeting of
+                    ${object.event_id.user_id.company_id.name}.
+                </p>
+                % endif
+                <div style="text-align: center; margin: 16px 0px 16px 0px;">
+                    <a href="/calendar/meeting/accept?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Accept
+                    </a>
+                    <a href="/calendar/meeting/decline?db=${'dbname' in ctx and ctx['dbname'] or '' }&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Decline
+                    </a>
+                    <a href="/calendar/meeting/view?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        View
+                    </a>
+                </div>
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="130px;">
+                            <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'dayname', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'day', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                                ${object.event_id.get_date(date,'month', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                                ${not object.event_id.allday and object.event_id.get_date(date,'time', tz=object.event_id.event_tz or object.partner_id.tz) or ''}
+                            </div>
+                        </td>
+                        <td width="20px;"/>
+                        <td style="padding-top: 5px;">
+                            <p>
+                                <strong>Details of the event</strong>
+                            </p>
+                            <ul>
+                                % if object.event_id.location:
+                                <li>Location: ${object.event_id.location}
+                                    (<a target="_blank"
+                                        href="http://maps.google.com/maps?oi=map&amp;q=${object.event_id.location}">View
+                                        Map</a>)
+                                </li>
+                                % endif
+                                % if object.event_id.description :
+                                <li>Description: ${object.event_id.description}</li>
+                                % endif
+
+                                % if object.event_id.join_url and object.event_id.is_zoom_meeting==True:
+                                <!--<ul>-->
+                                <li>Topic:${object.event_id.name}
+                                </li>
+                                <li>Join Zoom Meeting:
+                                    <p>
+                                        <a href="${object.event_id.join_url}">${object.event_id.join_url}</a>
+                                    </p>
+                                </li>
+                                <li>Meeting ID:${object.event_id.meeting_id}</li>
+                                <li>Password:${object.event_id.meeting_pswd}</li>
+                                <!--</ul>-->
+                                % endif
+                                % if not object.event_id.allday and object.event_id.duration
+                                <li>Duration:
+                                    ${('%d:%02d hours' % (object.event_id.duration,(object.event_id.duration*60)%60))}
+                                </li>
+                                % endif
+                                <li>Attendees
+                                    <ul>
+                                        % for attendee in object.event_id.attendee_ids:
+                                        <li>
+                                            <div style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background:${colors[attendee.state] or 'white'};"></div>
+                                            % if attendee.common_name != object.common_name:
+                                            <span style="margin-left:5px">${attendee.common_name}</span>
+                                            % else:
+                                            <span style="margin-left:5px">You</span>
+                                            % endif
+                                        </li>
+                                        % endfor
+                                    </ul>
+                                </li>
+                                % if object.event_id.is_zoom_meeting==True:
+
+                                     <li>External Participants
+                                            <ul>
+                                                % for participant in object.event_id.external_participants:
+                                                <li>
+                                                <div style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background:'white'};"></div>
+                                                <span style="margin-left:5px">${participant.name}</span>
+
+                                            </li>
+                                                % endfor
+                                        </ul>
+                                    </li>
+
+                                % endif
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                Thank you,
+                <br/>
+                % if object.event_id.user_id and object.event_id.user_id.signature:
+                ${object.event_id.user_id.signature | safe}
+                % endif
+            </div>
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+
+    <record id="calendar.calendar_template_meeting_changedate" model="mail.template">
+        <field name="name">Calendar: Meeting updated</field>
+        <field name="model_id" ref="calendar.model_calendar_attendee"/>
+        <field name="subject">${object.event_id.name}: Meeting updated</field>
+        <field name="email_from">${(object.event_id.user_id.email_formatted or user.email_formatted or '') | safe}
+        </field>
+        <field name="email_to">
+            ${('' if object.partner_id.email and object.partner_id.email == object.email else object.email) | safe}
+        </field>
+        <field name="partner_to">
+            ${object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False}
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="body_html" type="html">
+            <div>
+                % set date=ctx.get('date')
+                % set colors = {'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00', 'declined': 'red'}
+                <p>
+                    Hello ${object.common_name},
+                    <br/>
+                    <br/>
+                    The date of the meeting has been updated. The ${object.event_id.name} created by
+                    ${object.event_id.user_id.partner_id.name} is now scheduled for
+                    ${object.event_id.get_display_time_tz(tz=object.event_id.event_tz or object.partner_id.tz)}.
+                </p>
+                <div style="text-align: center; margin: 16px 0px 16px 0px;">
+                    <a href="/calendar/meeting/accept?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Accept
+                    </a>
+                    <a href="/calendar/meeting/decline?db=${'dbname' in ctx and ctx['dbname'] or '' }&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Decline
+                    </a>
+                    <a href="/calendar/meeting/view?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        View
+                    </a>
+                </div>
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="130px;">
+                            <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'dayname', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'day', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                                ${object.event_id.get_date(date,'month', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                                ${not object.event_id.allday and object.event_id.get_date(date,'time', tz=object.event_id.event_tz or object.partner_id.tz) or ''}
+                            </div>
+                        </td>
+                        <td width="20px;"/>
+                        <td style="padding-top: 5px;">
+                            <p>
+                                <strong>Details of the event</strong>
+                            </p>
+                            <ul>
+                                % if object.event_id.location:
+                                <li>Location: ${object.event_id.location}
+                                    (<a target="_blank"
+                                        href="http://maps.google.com/maps?oi=map&amp;q=${object.event_id.location}">View
+                                        Map</a>)
+                                </li>
+                                % endif
+                                % if object.event_id.description :
+                                <li>Description: ${object.event_id.description}</li>
+                                % endif
+                                % if object.event_id.join_url and object.event_id.is_zoom_meeting==True:
+                                <!--<ul>-->
+                                <li>Topic:${object.event_id.name}
+                                </li>
+                                <li>Join Zoom Meeting:
+                                    <p>
+                                        <a href="${object.event_id.join_url}">${object.event_id.join_url}</a>
+                                    </p>
+                                </li>
+                                <li>Meeting ID:${object.event_id.meeting_id}</li>
+                                <li>Password:${object.event_id.meeting_pswd}</li>
+                                <!--</ul>-->
+                                % endif
+                                % if not object.event_id.allday and object.event_id.duration
+                                <li>Duration:
+                                    ${('%d:%02d hours' % (object.event_id.duration,(object.event_id.duration*60)%60))}
+                                </li>
+                                % endif
+                                <li>Attendees
+                                    <ul>
+                                        % for attendee in object.event_id.attendee_ids:
+                                        <li>
+                                            <div style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background: ${colors[attendee.state] or 'white'};"></div>
+                                            % if attendee.common_name != object.common_name:
+                                            <span style="margin-left:5px">${attendee.common_name}</span>
+                                            % else:
+                                            <span style="margin-left:5px">You</span>
+                                            % endif
+                                        </li>
+                                        % endfor
+                                    </ul>
+                                </li>
+                                % if object.event_id.is_zoom_meeting==True:
+
+                                     <li>External Participants
+                                            <ul>
+                                                % for participant in object.event_id.external_participants:
+                                                <li>
+                                                <div style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background:'white'};"></div>
+                                                <span style="margin-left:5px">${participant.name}</span>
+
+                                            </li>
+                                            % endfor
+                                        </ul>
+                                    </li>
+
+                                % endif
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                Thank you,
+                <br/>
+                % if object.event_id.user_id and object.event_id.user_id.signature:
+                ${object.event_id.user_id.signature | safe}
+                % endif
+            </div>
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+
+    <record id="calendar.calendar_template_meeting_reminder" model="mail.template">
+        <field name="name">Calendar: Reminder</field>
+        <field name="model_id" ref="calendar.model_calendar_attendee"/>
+        <field name="subject">${object.event_id.name} - Reminder</field>
+        <field name="email_from">${(object.event_id.user_id.email_formatted or user.email_formatted or '') | safe}
+        </field>
+        <field name="email_to">
+            ${('' if object.partner_id.email and object.partner_id.email == object.email else object.email) | safe}
+        </field>
+        <field name="partner_to">
+            ${object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False}
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="body_html" type="html">
+            <div>
+                % set date=ctx.get('date')
+                % set colors = {'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00', 'declined': 'red'}
+                <p>
+                    Hello ${object.common_name},
+                    <br/>
+                    <br/>
+                    This is a reminder for the below event :
+                </p>
+                <div style="text-align: center; margin: 16px 0px 16px 0px;">
+                    <a href="/calendar/meeting/accept?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Accept
+                    </a>
+                    <a href="/calendar/meeting/decline?db=${'dbname' in ctx and ctx['dbname'] or '' }&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        Decline
+                    </a>
+                    <a href="/calendar/meeting/view?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}"
+                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                        View
+                    </a>
+                </div>
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="130px;">
+                            <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'dayname', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'day', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                                ${object.event_id.get_date(date,'month', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                                ${not object.event_id.allday and object.event_id.get_date(date,'time', tz=object.event_id.event_tz or object.partner_id.tz) or ''}
+                            </div>
+                        </td>
+                        <td width="20px;"/>
+                        <td style="padding-top: 5px;">
+                            <p>
+                                <strong>Details of the event</strong>
+                            </p>
+                            <ul>
+                                % if object.event_id.location:
+                                <li>Location: ${object.event_id.location}
+                                    (<a target="_blank"
+                                        href="http://maps.google.com/maps?oi=map&amp;q=${object.event_id.location}">View
+                                        Map</a>)
+                                </li>
+                                % endif
+                                % if object.event_id.description :
+                                <li>Description: ${object.event_id.description}</li>
+                                % endif
+
+                                % if object.event_id.join_url and object.event_id.is_zoom_meeting==True:
+                                <!--<ul>-->
+                                <li>Topic:${object.event_id.name}
+                                </li>
+                                <li>Join Zoom Meeting:
+                                    <p>
+                                        <a href="${object.event_id.join_url}">${object.event_id.join_url}</a>
+                                    </p>
+                                </li>
+                                <li>Meeting ID:${object.event_id.meeting_id}</li>
+                                <li>Password:${object.event_id.meeting_pswd}</li>
+                                <!--</ul>-->
+                                % endif
+                                % if not object.event_id.allday and object.event_id.duration
+                                <li>Duration:
+                                    ${('%d:%02d hours' % (object.event_id.duration,(object.event_id.duration*60)%60))}
+                                </li>
+                                % endif
+
+                                <li>Attendees
+                                    <ul>
+                                        % for attendee in object.event_id.attendee_ids:
+                                        <li>
+                                            <div style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background:${colors[attendee.state] or 'white'};"></div>
+                                            % if attendee.common_name != object.common_name:
+                                            <span style="margin-left:5px">${attendee.common_name}</span>
+                                            % else:
+                                            <span style="margin-left:5px">You</span>
+                                            % endif
+                                        </li>
+                                        % endfor
+                                    </ul>
+                                </li>
+                                % if object.event_id.is_zoom_meeting==True:
+
+                                     <li>External Participants
+                                            <ul>
+                                                % for participant in object.event_id.external_participants:
+                                                <li>
+                                                <div style="display: inline-block; border-radius: 50%; width: 10px; height: 10px; background:'white'};"></div>
+                                                <span style="margin-left:5px">${participant.name}</span>
+
+                                            </li>
+                                            % endfor
+                                        </ul>
+                                    </li>
+
+                                % endif
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                Thank you,
+                <br/>
+                % if object.event_id.user_id and object.event_id.user_id.signature:
+                ${object.event_id.user_id.signature | safe}
+                % endif
+            </div>
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+    <record id="unlink_meeting_notification_to_attendees" model="mail.template">
+        <field name="name">Calendar: Meeting Cancelled</field>
+        <field name="model_id" ref="calendar.model_calendar_attendee"/>
+        <field name="subject">Your Meeting - ${object.event_id.name} Cancelled</field>
+        <field name="email_from">${(object.event_id.user_id.email_formatted or user.email_formatted or '') | safe}
+        </field>
+        <field name="email_to">
+            ${('' if object.partner_id.email and object.partner_id.email == object.email else object.email) | safe}
+        </field>
+        <field name="partner_to">
+            ${object.partner_id.id if object.partner_id.email and object.partner_id.email == object.email else False}
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="body_html" type="html">
+            <div>
+                % set date=ctx.get('date')
+                <p>
+                    Hello ${object.common_name},
+                    <br/>
+                    <br/>
+                    The below zoom meeting has been cancelled.
+                </p>
+                <br/>
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="130px;">
+                            <div style="border-top-left-radius: 3px; border-top-right-radius: 3px; font-size: 12px; border-collapse: separate; text-align: center; font-weight: bold; color: #ffffff; min-height: 18px; background-color: #875A7B; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'dayname', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="font-size: 48px; min-height: auto; font-weight: bold; text-align: center; color: #5F5F5F; background-color: #F8F8F8; border: 1px solid #875A7B;">
+                                ${object.event_id.get_date(date,'day', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style='font-size: 12px; text-align: center; font-weight: bold; color: #ffffff; background-color: #875A7B;'>
+                                ${object.event_id.get_date(date,'month', tz=object.event_id.event_tz or object.partner_id.tz if not object.event_id.allday else None)}
+                            </div>
+                            <div style="border-collapse: separate; color: #5F5F5F; text-align: center; font-size: 12px; border-bottom-right-radius: 3px; font-weight: bold; border: 1px solid #875A7B; border-bottom-left-radius: 3px;">
+                                ${not object.event_id.allday and object.event_id.get_date(date,'time', tz=object.event_id.event_tz or object.partner_id.tz) or ''}
+                            </div>
+                            </td>
+                            <td width="20px;"/>
+                            <td style="padding-top: 5px;">
+                            <p>
+                                <strong>Details of the event</strong>
+                            </p>
+                            <p>
+                                Meeting ID:${object.event_id.meeting_id}
+                                <br/>
+                                Topic :${object.event_id.name}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                Thank you,
+                <br/>
+                % if object.event_id.user_id and object.event_id.user_id.signature:
+                    ${object.event_id.user_id.signature | safe}
+                % endif
+            </div>
+        </field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+    </record>
+    </data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data noupdate="0">
+    <!-- slide.slide inherit form view -->
+    <record id="view_id" model="ir.ui.view">
+      <field name="name">slide.slide.inherit.view.form</field>
+      <field name="model">slide.slide</field>
+      <field name="inherit_id" ref="website_slides.view_slide_slide_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='quiz_fourth_attempt_reward']" position="after">
+          <field name="generate"/>
+        </xpath>
+        <xpath expr="//group[@name='questions']" position="inside">
+          <group>
+            <field name="questions_count" string="Total: " colspan='4'/>
+            <button name="del_questions_and_content" type="object" class="btn-primary oe_edit_only" icon="fa-magic" string='Delete all questions' colspan='4'></button>
+          </group>
+        </xpath>
+        <xpath expr="//group[@name='quiz_details']" position="after">
+          <group attrs="{'invisible':[('generate','!=', True)]}" string='Text to generate questions'>
+            <field name="origin" string="Text to generate questions"/>
+            <group>
+              <field name="ml_name" string="Neural Network" attrs="{'required':[('generate','=', True)]}"/>
+              <field name="ml_type" attrs="{'invisible':[('ml_name','!=','Questgen.ai')], 'required':[('ml_name','=', 'Questgen.ai')]}" string='Question Type'/>
+              <field name="spliter_type" string="Splitter Option" attrs="{'required':[('generate','=', True)]}"/>
+              <field name="spliter" string="Splitter Symbol" attrs="{'invisible':[('spliter_type','!=','custom')], 'required':[('spliter_type','=', 'custom')]}"/>
+            </group>
+            <label for="result" attrs="{'invisible':[('ml_name','!=','SimleQ')]}"/>
+            <field name="result" string="Result" attrs="{'invisible':[('ml_name','!=','SimleQ')]}"/>
+            <button name="gen_question_generation" type="object" class="btn-primary" icon="fa-magic" string='Generate'></button>
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

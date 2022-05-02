@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+<template id="theme_customize_options" inherit_id="web._assets_primary_variables">
+  <xpath expr="//link" position="after">
+    <link rel="stylesheet" type="text/scss" href="/theme_grocery/static/src/scss/customise_variables.scss"/>
+  </xpath>
+</template>
+
+<template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Assets">
+  <xpath expr="//link[last()]" position="after">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/theme_grocery/static/description/favicon.ico" />
+    <!-- Library -->
+    <link rel="stylesheet" type="text/css" href="/theme_grocery/static/lib/ion.rangeSlider-2.3.1/css/ion.rangeSlider.css"/>
+    <link rel="stylesheet" href="/theme_grocery/static/lib/OwlCarousel/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="/theme_grocery/static/lib/malihu-custom-scrollbar/jquery.mCustomScrollbar.min.css"/>
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/theme_grocery/static/src/css/style.css"/>
+  </xpath>
+  <xpath expr="//script[last()]" position="after">
+    <script src="/theme_grocery/static/src/js/quick_view_dialog.js"></script>
+    <script src="/theme_grocery/static/src/js/price_filter.js"></script>
+    <script type="text/javascript" src="/theme_grocery/static/lib/ion.rangeSlider-2.3.1/js/ion.rangeSlider.js"></script>
+    <script src="/theme_grocery/static/lib/OwlCarousel/owl.carousel.min.js"></script>
+    <script src="/theme_grocery/static/lib/malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/theme_grocery/static/src/js/script.js"></script>
+  </xpath>
+</template>
+
+<template id="assets_web_frontend" inherit_id="website.assets_frontend" name="Website Assets">
+  <xpath expr="//link[last()]" position="after">
+    <!-- Theme SCSS -->
+    <link rel="stylesheet" type="text/scss" href="/theme_grocery/static/src/scss/style.scss"/>
+  </xpath>
+</template>
+
+<template id="website_glossary_header_style_1" inherit_id="website.layout" name="Header Style - 1" active="False">
+  <xpath expr="//header" position="replace">
+    <div class="header-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-5 col-5 language-currency-top">
+              <div class="language-wrapper">
+                <div class="dropdown" t-if="(request and request.is_frontend_multilang and len(languages) &gt; 1) or (website and (editable or translatable))">
+                  <div class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-globe" aria-hidden="false"></i> <span class="label_text">Language</span>
+                    <span class="caret"></span>
+                  </div>
+                  <ul class="dropdown-menu">
+                    <t t-foreach="languages" t-as="lg">
+                      <li class="list-inline-item">
+                        <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])"
+                           class="dropdown-item js_change_lang"
+                           t-att-data-url_code="lg[1]">
+                            <t t-esc="lg[2].split('/').pop()"/>
+                        </a>
+                      </li>
+                    </t>
+                    <li groups="website.group_website_publisher" class="list-inline-item">
+                        <t t-set="url_return" t-value="quote_plus(url_for('', '[lang]') + '?' + keep_query())"/>
+                        <a class="d-sm-block dropdown-item" t-attf-href="/web#action=base.action_view_base_language_install&amp;website_id=#{website.id if website else ''}&amp;url_return=#{url_return}">
+                            <i class="fa fa-plus-circle"/>
+                            Add a language...
+                        </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="currency-wrapper">
+                <t t-call="website_sale.pricelist_list" />
+              </div>
+          </div>
+          <div class="col-lg-7 col-md-7 col-md-7 col-7 header-links-top">
+              <div class="toplinks">
+                <ul class="header links">
+                  <li class="authorization-link" data-label="or" t-if="user_id._is_public()"><a href="/web/login">Login</a></li>
+                  <li t-if="user_id._is_public()"><a href="/web/signup">Register</a></li>
+                  <li class="dropdown" t-ignore="true" t-if="not user_id._is_public()">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <b>
+                        <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name" class="d-none d-sm-inline" />
+                        <span class="caret"></span>
+                      </b>
+                    </a>
+                    <ul class="dropdown-menu js_usermenu" role="menu">
+                      <li class="dropdown-item" id="o_logout"><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div class="track-order">
+                  <a href="#">Track You Order</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-middle">
+      <div class="container">
+        <div class="custom_row">
+          <div class="col-lg-3 col-sm-3 logo-header">
+            <div class="logo-wrapper">
+              <h1 class="logo-content">
+                <strong class="logo">
+                  <a class="logo" href="/" title="Logo">
+                    <span t-field="res_company.logo" t-options="{'widget': 'image'}" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                  </a>
+                </strong>
+              </h1>
+            </div>
+          </div>
+          <div class="col-lg-7 col-sm-7 col-xs-9 col-9 search-header">
+            <div class="searchbox-header">
+              <div class="search-wrapper">
+                <form method="get" action="/shop" class="pagination form-inline o_website_sale_search">
+                  <div class="input-group"> 
+                    <div class="oe_search">
+                      <select class="form-control" name="category">
+                        <option value="" t-att-selected="not search">All Products</option>
+                        <t t-foreach="website.get_categories()" t-as="category_item">
+                          <option t-att-value="category_item.id" t-att-selected="search and category and category.id == category_item.id">
+                              <t t-esc="category_item.name"/>
+                          </option>
+                        </t>
+                      </select>
+                      <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Enter keywords to search..." t-att-value="search"/>
+                    </div>
+                    <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default oe_search_button">
+                        <i class="fa fa-search" aria-hidden="false"></i>
+                        <span class="label_text" t-if='not (search and search_count)'>Search</span>
+                        <span t-if='search and search_count' class='label_text'> (<t t-esc="search_count"/> found)</span>
+                      </button>
+                    </span>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-3 col-3 cart-header">
+            <div class="minicart-header">
+              <div class="minicart-content">
+                <div class="cart-wrapper">
+                  <div class="minicart-wrapper">
+                    <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+                    <a class="action showcart" href="/shop/cart">
+                      <span class="text"><span class="df-text">My Cart</span></span>
+                      <span class="counter qty empty">
+                        <span id="my_cart" class="counter-number my_cart_quantity">
+                          <t t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/>
+                        </span>
+                        <span class="price-minicart">
+                          <span class="price">
+                            <t t-if="website_sale_order.amount_total > 0">
+                              <span t-field="website_sale_order.amount_total" t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+                            </t>
+                            <t t-else="">
+                              <t t-esc="website.currency_id.symbol"/> 0.00
+                            </t>
+                          </span>
+                        </span>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container text-center">
+          <div class="collapse navbar-collapse CustomScrollbar main_menu" id="top_menu_collapse">
+            <ul class="nav navbar-nav ml-auto mx-auto text-right" id="top_menu">
+              <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                <t t-call="website.submenu">
+                    <t t-set="item_class" t-value="'nav-item'"/>
+                    <t t-set="link_class" t-value="'nav-link'"/>
+                </t>
+              </t>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </xpath>
+</template>
+
+<template id="template_footer_style_1" inherit_id="website.layout" name="Footer Style - 1" active="False">
+  <xpath expr="//div[@id='footer']" position="replace">
+    <div id="footer" class="container hidden-print" t-if='not no_footer'>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="logo-footer">
+            <h2><span t-field="res_company.logo" t-options="{'widget': 'image'}" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></h2>
+          </div>
+          <div class="about-us">
+            <ul>
+              <li class="address">
+                <t t-if="res_company.street"><span t-field="res_company.street"/>, </t>
+                <t t-if="res_company.street2"><span t-field="res_company.street2"/>, </t>
+                <t t-if="res_company.city"><span t-field="res_company.city"/>, </t>
+                <t t-if="res_company.zip"><span t-field="res_company.zip"/>, </t>
+                <t t-if="res_company.country_id"><span t-field="res_company.country_id.name"/></t>
+              </li>
+              <li class="phone" t-if="res_company.phone"><span t-field="res_company.phone"/></li>
+              <li class="email" t-if="res_company.email"><span t-field="res_company.email"/></li>
+              <li class="time-open">Open time: 8:00AM - 16:PM</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3" >
+          <div class="block-footer">
+            <div class="title-block-footer">Information</div>
+            <div class="content-block-footer">
+              <ul>
+                <li><a href="#" title="About Us">About Us</a></li>
+                <li><a href="#" title="Delivery Information">Delivery Information</a></li>
+                <li><a href="#" title="Wishlist">Privacy Policy</a></li>
+                <li><a href="#" title="Customer Service">Terms &amp; Conditions</a></li>
+              </ul>
+            </div>
+            <div id="info" class="hidden">
+              <ul></ul>
+            </div>
+            <div class="title-block-footer newsletter-top">Newsletter</div>
+            <div class="content-block-footer">
+              <div class="input-group js_subscribe" data-list-id="1" data-subscribe="off">
+                <input type="email" name="email" class="js_subscribe_email form-control" placeholder="your email..."/>
+                <span class="input-group-append">
+                    <a role="button" href="#" class="btn btn-primary js_subscribe_btn">Subscribe</a>
+                    <a role="button" href="#" class="btn btn-primary js_subscribed_btn d-none" disabled="disabled">Thanks</a>
+                </span>
+                <div class="alert alert-success d-none" role="status">Thanks for your subscription!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="block-footer">
+            <div class="title-block-footer">My Account</div>
+            <div class="content-block-footer">
+              <ul>
+                <li><a href="/my" title="Dashboard">Dashboard</a></li>
+                <li><a href="/shop/wishlist" title="Wishlist">Wishlist</a></li>
+                <li><a href="/contactus" title="Customer Service">Customer Service</a></li>
+                <li><a href="#" title="Returns / Exchange">Returns</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="block-footer">
+            <div class="title-block-footer">Extra</div>
+            <div class="content-block-footer">
+              <ul>
+                <li><a href="#" title="Brands">Brands</a></li>
+                <li><a href="#" title="Gift Certificate">Gift Certificate</a></li>
+                <li><a href="#" title="Affiliate">Affiliate</a></li>
+                <li><a href="#" title="Support">Support</a></li>
+                <li><a href="#" title="Sitemap">Sitemap</a></li>
+              </ul>
+            </div>
+            <ul class="app-list">
+              <li>
+                <a href="#" title="Appstore">
+                  <img src="/theme_grocery/static/src/img/appstore.jpg" alt="Appstore"/>
+                </a>
+              </li>
+              <li>
+                <a href="#" title="Google Play">
+                  <img src="/theme_grocery/static/src/img/playstore.jpg" alt="Google Play"/>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer_copyright">
+      <div class="container">
+        <div class="pull-left">
+          <span>Copyright &amp;copy; 2019 <t t-esc="res_company.name"/>. All Rights Reserved.</span>
+        </div>
+        <div class="pull-right">
+          <a href="https://kanakinfosystems.com" target="_blank">Designed by Kanak Infosystems LLP.</a>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </xpath>
+</template>
+
+<template id="wishlist_link" inherit_id="theme_grocery.website_glossary_header_style_1" name="Header Shop Wishlist Link">
+  <xpath expr="//div[hasclass('track-order')]" position="before">
+    <t t-set='wishcount' t-value="len(request.env['product.wishlist'].current())"/>
+    <div id="my_wish" class="o_wsale_my_wish">
+      <a href="/shop/wishlist">
+        <i class="fa fa-heart"></i>
+        <span class="d-none d-sm-inline">Wishlist</span> <sup t-attf-class="my_wish_quantity o_animate_blink label label-primary"><t t-esc='wishcount'/></sup>
+      </a>
+    </div>
+  </xpath>
+</template>
+
+<template id="grocery_pricelist_list" inherit_id="website_sale.pricelist_list" name="Pricelists Dropdown 1">
+  <xpath expr="//a[hasclass('btn-secondary')]" position="replace">
+    <a role="button" href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <i class="fa fa-money" aria-hidden="false"></i> <span class="label_text"><t t-esc="curr_pl and curr_pl.name or ' - '" /></span>
+    </a>
+  </xpath>
+</template>
+
+</data>
+</odoo>

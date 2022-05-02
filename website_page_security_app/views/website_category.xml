@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<record id="website_page_login" model="ir.ui.view">
+        <field name="name">website.page.inherit</field>
+        <field name="model">website.page</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="website.website_pages_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='website_indexed']" position="after">
+            	<field name="user_login_reqired"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="website_menu_login" model="ir.ui.view">
+        <field name="name">website.manu.inherit</field>
+        <field name="model">website.menu</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="website.website_menus_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='page_id']" position="after">
+                <field name="user_login_reqired"/>
+            </xpath>
+        </field>    
+    </record>
+</odoo>

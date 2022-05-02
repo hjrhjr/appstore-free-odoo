@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_calendar_event_tree_inherit" model="ir.ui.view">
+        <field name="name">calendar.event.tree</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+        <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+        <field name="arch" type="xml">
+            <field name="duration" position="after">
+                <field name="is_zoom_meeting" invisible="1"/>
+                <field name="user_visibility" invisible="1"/>
+                <field name="join_visible_factor" invisible="1"/>
+
+                <field name="active" invisible="1"/>
+                <field name="join_url" string="Share Link" attrs="{'invisible':['|',('is_zoom_meeting','=',False),('join_visible_factor','=',True)]}"/>
+                <button name="join_meeting" type="object" string="Join Meeting" class="oe_highlight"
+                        attrs="{'invisible':['|','|','|','|',('is_zoom_meeting','=',False),('join_url','=',''),('user_visibility','=',True),('active','=',False),('join_visible_factor','=',True)]}"/>
+                <button name="start_meeting" type="object" string="Start Meeting" class="oe_highlight"
+                        attrs="{'invisible':['|','|','|',('is_zoom_meeting','=',False),('join_url','=',''),('user_visibility','!=',True),('active','=',False)]}"/>
+            </field>
+            <field name="stop" position="replace"/>
+            <field name="partner_ids" position="replace"/>
+        </field>
+    </record>
+
+    <record id="view_calendar_event_form_inherit" model="ir.ui.view">
+        <field name="name">calendar.event.form</field>
+        <field name="model">calendar.event</field>
+        <field name="priority" eval="2"/>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+
+              <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button name="cancel_meeting" type="object" string="Cancel"  class="oe_highlight" attrs="{'invisible':['|','|',('active','=',False),('id','=',False),('user_visibility','!=',True)]}"/>
+                </header>
+              </xpath>
+
+            <field name="start_datetime" position="before">
+                        <field name="is_zoom_meeting" attrs="{'readonly':[('id','!=',False)],'invisible':[('id','!=',False)]}"
+                       force_save="1" />
+
+                <field name="visible_factor" invisible="True"/>
+                <field name="user_visibility" invisible="1"/>
+                <field name="join_visible_factor" invisible="1"/>
+
+                <field name="active" invisible="1"/>
+            </field>
+            <field name="start_datetime"  attrs="{'required': [('allday','=',False)], 'invisible': [('allday','=',True)], 'readonly': [('id', '!=', False), ('recurrency','=',True)]}" position="replace">
+                       <field name="start_datetime" string="Starting at" attrs="{'required': [('allday','=',False)], 'invisible': [('allday','=',True)], 'readonly': [('id', '!=', False), ('recurrency','=',True)]}" force_save="1"/>
+            </field>
+
+            <field name="allday" position="attributes">
+                <attribute name="attrs">{'readonly': [('id', '!=', False),
+                    ('recurrency','=',True)],'invisible':[('is_zoom_meeting','=',True)]}
+                </attribute>
+            </field>
+            <field name="recurrency" position="replace">
+                <field name="recurrency" string="Recurring Meeting"/>
+            </field>
+            <field name="month_by" position="attributes">
+                <attribute name="attrs">{'required':[('rrule_type','=','monthly')]}</attribute>
+            </field>
+            <field name="end_type" position="attributes">
+                <attribute name="attrs">{'required':[('recurrency','=',True)]}
+                </attribute>
+            </field>
+            <field name="allday" position="attributes">
+                <attribute name="attrs">{'readonly': [('id', '!=', False),
+                    ('recurrency','=',True)],'invisible':[('is_zoom_meeting','=',True)]}
+                </attribute>
+            </field>
+            <button name="action_open_calendar_event" position="before">
+                <div style="text-align:right">
+                    <button name="join_meeting" type="object" string="Join meeting" class="oe_highlight"
+                            attrs="{'invisible':['|','|','|',('is_zoom_meeting','=',False),('join_url','=',''),('user_visibility','=',True),('join_visible_factor','=',True)]}"/>
+                                    <button name="start_meeting" type="object" string="Start Meeting" class="oe_highlight"
+                        attrs="{'invisible':['|','|',('is_zoom_meeting','=',False),('join_url','=',''),('user_visibility','!=',True)]}"/>
+                </div>
+            </button>
+            <xpath expr="//page[@name='page_details']/group[1]" position="replace">
+                <group col="1" class="oe_edit_only ">
+                    <div attrs="{'invisible': [('recurrency','=',False)]}">
+                        <p class="alert alert-warning" role="status">This event is linked to a recurrence...
+                            <button type="object" name="action_detach_recurring_event"
+                                    string="Update only this instance"
+                                    help="Click here to update only this instance and not all recurrences. "
+                                    class="oe_link"/>
+                        </p>
+                    </div>
+                    <div attrs="{'invisible':['|','|',('is_zoom_meeting','=',False),('id','=',False),('active','=',False)]}">
+                        <p class="alert alert-warning" role="status">This event is linked to a zoom...
+                            <button type="object" name="action_remove_zoom_meeting" string="Remove zoom meeting" help="Click here to remove zoom meeting. " class="oe_link"/>
+                        </p>
+                    </div>
+                    <div attrs="{'invisible':['|',('visible_factor','!=',True),('active','=',False)]}">
+                        <p class="alert alert-warning" role="status">Link this event  to  zoom...
+                            <button type="object" name="action_link_zoom_meeting" string="Link to zoom" help="Click here to link this event to zoom . " class="oe_link"/>
+                        </p>
+                    </div>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='page_options']" position="after" >
+                <page name="meeting_conf" string="Meeting Configuration" attrs="{'invisible':['|',('is_zoom_meeting','=',False),('join_visible_factor','=',True)]}">
+                    <group>
+                         <group>
+                            <field name="meeting_pswd" attrs="{'required':[('is_zoom_meeting','=',True)],'invisible':[('is_zoom_meeting','=',False)]}"/>
+                            <field name="start_url" invisible="1"/>
+                            <field name="meeting_id" force_save="1" readonly="1"/>
+                            <field name="join_url" string="Share Link" readonly="1" force_save="1"/>
+                            <field name="zoom_occurrence_list" invisible="1"/>
+                             <field name="update_single_instance" invisible="1"/>
+                        </group>
+
+                        <group string="Meeting Option">
+                            <field name="video_host"/>
+                            <field name="video_participant"/>
+                            <field name="enable_join_bf_host"/>
+                            <field name="mute_participants_upon_entry"/>
+                            <field name="enable_waiting_room"/>
+                            <field name="auto_recording"/>
+                        </group>
+
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='page_options']/group/div" position="attributes">
+                <attribute name="attrs">{'invisible':[('update_single_instance','=',True)]}</attribute>
+            </xpath>
+             <field name="partner_ids" position="attributes">
+                <attribute name="options">{'no_create_edit': True ,'no_create':True, 'no_quick_create':True}</attribute>
+             </field>
+
+            <field name="attendee_ids" position="after">
+                <label for='external_participants' string="External participants"
+                       attrs="{'invisible':[('is_zoom_meeting','=',False)]}"/>
+                <field name="external_participants" attrs="{'invisible':[('is_zoom_meeting','=',False)]}"
+                       string="External Participants" groups="base.group_user" >
+                    <tree editable="bottom">
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="event_id" invisible="1"/>
+                    </tree>
+                </field>
+            </field>
+            <page name="page_invitations" position="attributes">
+                    <attribute name="groups"></attribute>
+            </page>
+             <page name="page_misc" position="attributes">
+                    <attribute name="groups"></attribute>
+            </page>
+            <field name="event_tz" attrs="{'invisible': [('recurrency', '=', False)]}" position="replace">
+                <field name="event_tz" attrs="{'readonly': [('id', '!=', False), ('recurrency','=',True)],'required':[('is_zoom_meeting','=',True)]}" force_save="1"/>
+            </field>
+            <label for="description" position="before">
+                <field name="todays_meeting" attrs="{'invisible':[('is_zoom_meeting','=',False)]}"/>
+            </label>
+
+        </field>
+    </record>
+
+    <record id="calendar.view_calendar_event_calendar" model="ir.ui.view">
+        <field name="name">calendar.event.calendar</field>
+        <field name="model">calendar.event</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar js_class="attendee_calendar" string="Meetings" date_start="start" date_stop="stop" date_delay="duration" all_day="allday"
+                event_open_popup="true"
+                event_limit="5"
+                color="partner_id">
+                <field name="is_zoom_meeting"/>
+                <field name="attendee_status"/>
+                <field name="partner_id"/>
+                <field name="partner_ids" widget="many2many_tags_avatar" write_model="calendar.contacts" write_field="partner_id" avatar_field="image_128"/>
+                <field name="description"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_zoom_calendar_event_calendar" model="ir.ui.view">
+    <field name="name">calendar.event.calendar</field>
+    <field name="model">calendar.event</field>
+    <field name="priority" eval="3"/>
+    <field name="arch" type="xml">
+        <calendar js_class="attendee_calendar" string="Meetings" date_start="start" date_stop="stop" date_delay="duration" all_day="allday"
+            event_open_popup="true"
+            event_limit="5"
+            color="partner_id" quick_add="False" >
+            <field name="event_tz"/>
+            <field name="attendee_status"/>
+            <field name="join_url" widget="url" readonly="1" invisible="1"/>
+            <field name="meeting_id" readonly="1" invisible="1"/>
+            <field name="meeting_pswd"  readonly="1" invisible="1"/>
+            <field name="partner_id"/>
+            <field name="partner_ids" widget="many2many_tags_avatar" write_model="calendar.contacts" write_field="partner_id" avatar_field="image_128"/>
+            <field name="external_participants"/>
+            <field name="description"/>
+        </calendar>
+    </field>
+    </record>
+
+    <record id="action_zoom_calendar_event" model="ir.actions.act_window">
+        <field name="name">Zoom Meetings</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_id" ref="view_zoom_calendar_event_calendar"/>
+        <field name="search_view_id" ref="calendar.view_calendar_event_search"/>
+        <field name="domain">[('is_zoom_meeting','=',True)]</field>
+        <field name="context">{'default_is_zoom_meeting':True}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Schedule a new meeting
+          </p><p>
+            The calendar is shared between employees and fully integrated with
+            other applications such as the employee leaves or the business
+            opportunities.
+          </p>
+        </field>
+    </record>
+
+    <record id="action_view_zoom_calendar_event_calendar" model="ir.actions.act_window.view">
+        <field name="act_window_id" ref="action_zoom_calendar_event"/>
+        <field name="sequence" eval="7"/>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="view_zoom_calendar_event_calendar"/>
+    </record>
+
+    <menuitem name="Zoom Meetings" id="menu_meeting" web_icon="calendar.event" groups="base.group_user" sequence="99" action="action_zoom_calendar_event"/>
+
+</odoo>

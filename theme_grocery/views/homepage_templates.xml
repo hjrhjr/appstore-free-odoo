@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+  <record id="grocery_homepage_view" model="ir.ui.view">
+    <field name="name">Grocery Home</field>
+    <field name="type">qweb</field>
+    <field name="key">website.grocery_homepage</field>
+    <field name="arch" type="xml">
+        <t name="Home" t-name="website.grocery_homepage">
+          <t t-call="website.layout">
+            <t t-set="pageName" t-value="'homepage'"/>
+            <div id="wrap" class="oe_structure">
+              <t t-set="direction" t-value="request.env['res.lang'].search([('code', '=', lang)]).direction"/>
+              <section class="mt32">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <div class="sidebar-nav">
+                        <div class="navbar navbar-default" role="navigation">
+                          <div class="navbar-header">
+                            <h4 class="panel-title navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+                              <i class="fa fa-bars" aria-hidden="false"></i> Categories<span class="pull-right fa fa-angle-down"></span>
+                            </h4>
+                          </div>
+                          <div class="navbar-collapse sidebar-navbar-collapse collapse show">
+                            <ul class="nav navbar-nav">
+                              <t t-foreach="website.get_homepage_categories()" t-as="category">
+                                <li><a t-att-href="'/shop/category/' + slug(category)"><t t-esc="category.name"/></a></li>
+                              </t>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="home-slider">
+                        <div class="owl-carousel">
+                          <t t-foreach="website.get_homepage_sliders()" t-as="slider">
+                            <div class="item">
+                              <a t-att-href="slider.link" t-att-title="slider.name">
+                                <img t-attf-src="/website/image/homepage.slider/{{slider.id}}/image" t-att-alt="slider.name" t-if="direction == 'ltr'"/>
+                                <img t-attf-src="/website/image/homepage.slider/{{slider.id}}/rtl_image" t-att-alt="slider.name" t-if="direction == 'rtl'"/>
+                              </a>
+                            </div>
+                          </t>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="mt16 mb32">
+                <div class="container">
+                  <div class="row">
+                    <t t-foreach="website.get_homepage_horizontal_banner()" t-as="banner">
+                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="horizontal-banner">
+                          <div class="bg-image">
+                            <img t-attf-src="/website/image/homepage.horizontal.banner/{{banner.id}}/image" t-att-alt="banner.name" class="img-responsive" t-if="direction == 'ltr'"/>
+                            <img t-attf-src="/website/image/homepage.horizontal.banner/{{banner.id}}/rtl_image" t-att-alt="banner.name" class="img-responsive" t-if="direction == 'rtl'"/>
+                          </div>
+                          <div class="content">
+                            <div class="content-inner">
+                              <div class="banner">
+                                <div class="banner-content">
+                                  <h3><t t-esc="banner.name"/></h3>
+                                  <p><t t-esc="banner.sub_heading"/></p>
+                                </div>
+                                <div class="banner-button">
+                                  <a class="btn btn-banner-light" t-att-href="banner.link" title="Shop now"><span>Shop now</span></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </t>
+                  </div>
+                </div>
+              </section>
+
+              <section class="oe_website_sale">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+                      <div class="oe_structure">
+                        <section class="s_big_picture mb32">
+                          <div class="container">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <t t-foreach="website.get_homepage_vertical_banner()" t-as="banner">
+                                  <a t-att-href="banner.link">
+                                    <img class="img img-responsive" t-attf-src="/website/image/homepage.vertical.banner/{{banner.id}}/image" t-att-alt="banner.name" t-att-title="banner.name" t-if="direction == 'ltr'"/>
+                                    <img class="img img-responsive" t-attf-src="/website/image/homepage.vertical.banner/{{banner.id}}/rtl_image" t-att-alt="banner.name" t-att-title="banner.name" t-if="direction == 'rtl'"/>
+                                  </a>
+                                </t>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+
+                        <div class="clearfix"/>
+                        <div class="oe_structure"/>
+
+                        <section class="list-slider best-seller mb32">
+                          <div class="block-title"><span>Best Sellers</span></div>
+                          <t t-set="products" t-value="website.get_bestseller_products()"/>
+                          <div class="owl-carousel">
+                            <t t-foreach="range(0, len(products), 5)" t-as="step">
+                              <div class="item">
+                                <ul class="widget-products">
+                                  <li t-foreach="products[step:step+5]" t-as="product">
+                                    <span class="img">
+                                      <img class="img-thumbnail" t-attf-src="/website/image/product.template/{{product.id}}/image_512" t-att-title="product.name"/>
+                                    </span>
+                                    <span class="product">
+                                      <a t-att-href="'/shop/product/' + slug(product)" t-att-title="product.name">
+                                        <span class="name"><t t-esc="product.name"/></span>
+                                      </a>
+                                      <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                                      <div class="price product_price" style="white-space: nowrap;">
+                                        <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                                        <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+                                        <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+                                      </div>
+
+                                      <t t-if="len(product.product_variant_ids) == 1">
+                                        <form action="/shop/cart/update" class="js_add_cart_variants" method="POST">
+                                          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                          <input name="product_id" t-att-value="product.product_variant_id.id" type="hidden" />
+                                          <a class="add-cart-btn a-submit">Add to Cart</a>
+                                        </form>
+                                      </t>
+                                      <t t-if="len(product.product_variant_ids) &gt; 1">
+                                        <a class="add-cart-btn" t-att-href="'/shop/product/%s' % slug(product)">Add to Cart</a>
+                                      </t>
+                                    </span>
+                                    <div class="clearfix"/>
+                                  </li>
+                                </ul>
+                              </div>
+                            </t>
+                          </div>
+                        </section>
+
+                        <section class="list-slider review-slider mb32">
+                          <div class="block-title"><span>Testimonials</span></div>
+                          <div class="owl-carousel">
+                            <t t-foreach="website.get_testimonials()" t-as="testimonial">
+                              <div class="item">
+                                <div class="reviewer-image">
+                                  <img t-attf-src="/website/image/customer.testimonial/{{testimonial.id}}/image" alt="testimonial.id"/>
+                                </div>
+                                <div class="reviewer-info">
+                                  <div class="reviewer-name"><t t-esc="testimonial.name"/></div>
+                                  <div class="review"><t t-esc="testimonial.review"/></div>
+                                </div>
+                              </div>
+                            </t>
+                          </div>
+                        </section>
+
+                        <div class="clearfix"/>
+                        <div class="oe_structure"/>
+                      </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                      <div class="homepage-expore">
+                        <div class="">
+                          <span class="left">Top Categories Pick-up your order in store at Same - Day, Hurry!</span>
+                          <span class="pull-right"><a href="/shop">Explore All</a></span>
+                        </div>
+                      </div>
+
+                      <div class="clearfix mt16"/>
+
+                      <div class="trending-product">
+                        <div class="title">Trending Products</div>
+                        <ul class="nav nav-tabs justify-content-end" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" href="#bestseller" aria-controls="bestseller" role="tab" data-toggle="tab" aria-expanded="true" aria-selected="true">Bestseller</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#latest" aria-controls="latest" role="tab" data-toggle="tab" aria-selected="false">Latest</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#featured" aria-controls="featured" role="tab" data-toggle="tab" aria-selected="false">Featured</a>
+                          </li>
+                        </ul>
+                        <div class="tab-content">
+                          <div role="tabpanel" class="tab-pane" id="featured">
+                            <div class="owl-carousel mt16">
+                              <t t-set="products" t-value="website.get_featured_products()"/>
+                              <t t-foreach="range(0, len(products), 2)" t-as="step">
+                                <div class="item col-md-12">
+                                  <div class="row">
+                                    <t t-foreach="products[step:step+2]" t-as="product">
+                                      <div class="oe_product_cart">
+                                        <div class="oe_product">
+                                          <t t-call="theme_grocery.homepage_products_item"></t>
+                                        </div>
+                                      </div>
+                                    </t>
+                                  </div>
+                                </div>
+                              </t>
+                            </div>
+                          </div>
+                          <div role="tabpanel" class="tab-pane" id="latest">
+                            <div class="owl-carousel mt16">
+                              <t t-set="products" t-value="website.get_latest_products()"/>
+                              <t t-foreach="range(0, len(products), 2)" t-as="step">
+                                <div class="item col-md-12">
+                                  <div class="row">
+                                    <t t-foreach="products[step:step+2]" t-as="product">
+                                      <div class="oe_product_cart">
+                                        <div class="oe_product">
+                                          <t t-call="theme_grocery.homepage_products_item"></t>
+                                        </div>
+                                      </div>
+                                    </t>
+                                  </div>
+                                </div>
+                              </t>
+                            </div>
+                          </div>
+                          <div role="tabpanel" class="tab-pane show active" id="bestseller">
+                            <div class="owl-carousel mt16">
+                              <t t-set="products" t-value="website.get_bestseller_products()"/>
+                              <t t-foreach="range(0, len(products), 2)" t-as="step">
+                                <div class="item col-md-12">
+                                  <div class="row">
+                                    <t t-foreach="products[step:step+2]" t-as="product">
+                                      <div class="oe_product_cart">
+                                        <div class="oe_product">
+                                          <t t-call="theme_grocery.homepage_products_item"></t>
+                                        </div>
+                                      </div>
+                                    </t>
+                                  </div>
+                                </div>
+                              </t>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="clearfix"/>
+                      <div class="oe_structure"/>
+
+                      <section class="s_big_picture mb32">
+                        <div>
+                          <div class="row">
+                            <div class="col-md-12 homepage_banner_2">
+                              <t t-foreach="website.get_homepage_horizontal_full_banner()" t-as="banner">
+                                <a t-att-href="banner.link">
+                                  <img class="img img-responsive" t-attf-src="/website/image/homepage.horizontal.full.banner/{{banner.id}}/image" t-att-alt="banner.name" t-att-title="banner.name" t-if="direction == 'ltr'"/>
+                                  <img class="img img-responsive" t-attf-src="/website/image/homepage.horizontal.full.banner/{{banner.id}}/rtl_image" t-att-alt="banner.name" t-att-title="banner.name" t-if="direction == 'rtl'"/>
+                                </a>
+                              </t>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+
+                      <div class="clearfix"/>
+                      <div class="oe_structure"/>
+
+                      <section class="s_text_image homepage_banner_2 mb16">
+                        <div>
+                          <div class="row">
+                            <t t-foreach="website.get_homepage_horizontal_half_banner()" t-as="banner">
+                              <div class="col-md-6">
+                                <a t-att-href="banner.link">
+                                  <img class="img img-responsive" t-attf-src="/website/image/homepage.horizontal.half.banner/{{banner.id}}/image" t-att-alt="banner.name" t-att-title="banner.name" t-if="direction == 'ltr'"/>
+                                  <img class="img img-responsive" t-attf-src="/website/image/homepage.horizontal.half.banner/{{banner.id}}/rtl_image" t-att-alt="banner.name" t-att-title="banner.name" t-if="direction == 'rtl'"/>
+                                </a>
+                              </div>
+                            </t>
+                          </div>
+                        </div>
+                      </section>
+
+                      <div class="clearfix"/>
+                      <div class="oe_structure"/>
+
+                      <div class="homepage-blogs mb32">
+                        <div class="title">Latest Blog</div>
+                        <div class="owl-carousel mt16">
+                          <t t-foreach="website.get_latest_blog_posts()" t-as="blog_post">
+                            <div class="item col-md-12">
+                              <div class="row">
+                                <div class="latest-posts-body">
+                                  <div class="latest-posts-image">
+                                    <a t-attf-href="/blog/#{ slug(blog_post.blog_id) }/post/#{ slug(blog_post) }">
+                                      <t t-set="img_path" t-value='website.get_cover_image(blog_post)'/>
+                                      <img t-att-src="img_path and len(img_path)> 2 and img_path[1:-1]" t-att-title="blog_post.name" t-att-alt="blog_post.name" class="img img-responsive"/>
+                                    </a>
+                                  </div>
+                                  <div class="latest-posts-meta">
+                                    <div class="info">
+                                      <a class="latest-posts-title" t-attf-href="/blog/#{ slug(blog_post.blog_id) }/post/#{ slug(blog_post) }">
+                                        <t t-esc="blog_post.name"/>
+                                      </a>
+                                    </div>
+                                    <div class="posts-meta">
+                                      <div class="description"><t t-esc="blog_post.teaser"/></div>
+                                      <a t-attf-href="/blog/#{ slug(blog_post.blog_id) }/post/#{ slug(blog_post) }" class="link">Read more</a>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </t>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </t>
+        </t>
+    </field>
+  </record>
+  <record id="grocery_homepage" model="website.page">
+    <field name="url">/grocery_homepage</field>
+    <field name="is_homepage" eval="True"></field>
+    <field name="website_published">True</field>
+    <field name="view_id" ref="grocery_homepage_view"/>
+  </record>
+  <record id="website.default_website" model="website">
+    <field name="homepage_id" ref="grocery_homepage"/>
+  </record>
+
+  <template id="homepage_products_item" name="Homepage Products item">
+    <t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+    <form action="/shop/cart/update" method="post">
+      <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+      <div itemscope="itemscope" itemtype="http://schema.org/Product">
+        <div class="oe_product_image">
+          <a itemprop="url" t-att-href="'/shop/product/%s' % slug(product)">
+            <span itemprop="image" t-attf-content="{{request.httprequest.url_root}}web/image/product.template/{{product.id}}/image_512" t-field="product.image_512" t-options="{'widget': 'image', 'resize': None if product_image_big else '300x300', 'zoom': 'image'}" t-att-alt="product.name" />
+          </a>
+        </div>
+        <section>
+          <div class="hover-button">
+            <input name="product_id" t-att-value="product.product_variant_id.id" type="hidden" />
+            <t t-if="len(product.product_variant_ids) == 1">
+              <a class="btn btn-default btn-xs a-submit">
+                <span class="fa fa-shopping-cart" />
+              </a>
+            </t>
+            <t t-if="len(product.product_variant_ids) &gt; 1">
+              <a class="btn btn-default btn-xs" t-att-href="'/shop/product/%s' % slug(product)">
+                <span class="fa fa-shopping-cart" />
+              </a>
+            </t>
+            <a t-att-href="'/shop/product/%s' % slug(product)" class="btn btn-default btn-xs" title="View">
+              <span class="fa fa-eye"></span>
+            </a>
+          </div>
+          <h5><a itemprop="name" t-att-href="'/shop/product/%s' % slug(product)" t-att-content="product.name" t-field="product.name" /></h5>
+          <div class="product_price">
+            <b>
+              <del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+              <span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+              <span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+              <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+            </b>
+          </div>
+        </section>
+      </div>
+    </form>
+  </template>
+
+</data>
+</odoo>

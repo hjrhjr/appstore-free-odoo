@@ -1,0 +1,64 @@
+<odoo>
+  <!-- <data> -->
+  <record id="slide_qgen_view_form" model="ir.ui.view">
+    <field name="name">slide.qgen.view.form</field>
+    <field name="model">slide.qgen</field>
+    <field name="arch" type="xml">
+      <form string="Generate quetions">
+        <sheet>
+          <group>
+            <field name="channel_name" require="true" string="Course name"/>
+            <field name="slide_name" context="{'default_channel_id': channel_name, 'default_slide_type': 'quiz'}"/>
+          </group>
+          <label for='origin'/>
+          <field name="origin" string="Text to generate questions"/>
+          <group>
+            <field name="ml_name" string="Neural Network"/>
+            <field name="ml_type" attrs="{'invisible':[('ml_name','!=','Questgen.ai')]}" string='Question Type'/>
+            <field name="spliter_type" string="Splitter Option"/>
+            <field name="spliter" string="Splitter Symbol" attrs="{'invisible':[('spliter_type','!=','custom')]}"/>
+          </group>
+          <label for="result" attrs="{'invisible':[('ml_name','!=','SimleQ')]}"/>
+          <field name="result" string="Result" attrs="{'invisible':[('ml_name','!=','SimleQ')]}"/>
+          <button name="gen_question_generation" type="object" class="btn-primary" icon="fa-magic" string='Generate'></button>
+        </sheet>
+        <field name="question_ids" nolabel="1">
+          <tree>
+            <field name="sequence" widget="handle"/>
+            <field name="question"/>
+            <field name="context"/>
+          </tree>
+        </field>
+        <button name="del_questions_and_content" type="object" class="btn-primary" icon="fa-magic" string='Delete all questions'></button>
+      </form>
+    </field>
+  </record>
+  <!-- slide.qgen kanban view -->
+  <record id="slide_qgen_view_kanban" model="ir.ui.view">
+    <field name="name">slide.qgen.view.kanban</field>
+    <field name="model">slide.qgen</field>
+    <field name="arch" type="xml">
+      <kanban string="Kanban Description">
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_global_click">
+              <div>
+                <strong>
+                  <field name="name"/></strong>
+              </div>
+              <div>
+                <field name="channel_name"/>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+  <record id="slide_qgen_action" model="ir.actions.act_window">
+    <field name="name">Question Generator</field>
+    <field name="res_model">slide.qgen</field>
+    <field name="view_mode">kanban,tree,form</field>
+  </record>
+  <!-- <menuitem id="qgen_menu" name="Question Generator" action="slide_qgen_action" parent="website_slides.website_slides_menu_courses" sequence="10"/> -->
+</odoo>

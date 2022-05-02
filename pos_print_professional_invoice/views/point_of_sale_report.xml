@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="point_of_sale.report_invoice" inherit_id="professional_templates.report_invoice" primary="True"/>
+</odoo>
